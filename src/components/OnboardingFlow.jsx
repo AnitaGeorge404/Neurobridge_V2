@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { CHALLENGE_CATEGORIES } from "@/data/modulesRegistry";
+import { CHALLENGE_CATEGORIES, MODULES_REGISTRY } from "@/data/modulesRegistry";
 import { getQuestionsForChallenges } from "@/utils/questionEngine";
 import { selectModulesForUser } from "@/utils/moduleSelector";
 import Questionnaire from "@/components/Questionnaire";
@@ -32,6 +32,26 @@ export default function OnboardingFlow({ onComplete }) {
   function handleAnswer(questionId, optionText) {
     setAnswers((prev) => ({ ...prev, [questionId]: optionText }));
   }
+
+  // ── DEMO ONLY: skip questionnaire and enable every module ──────────────────────────
+  async function handleDemoSkip() {
+    if (isProcessing) return;
+    setIsProcessing(true);
+    setStep(4);
+    const allChallengeIds = CHALLENGE_CATEGORIES.map((c) => c.id);
+    const allModules = Object.values(MODULES_REGISTRY).filter(Boolean);
+    const allModuleIds = allModules.map((m) => m.id);
+    await onComplete({
+      selectedChallenges: allChallengeIds,
+      answersByQuestionId: {},
+      tagProfile: {},
+      enabledModules: allModuleIds,
+      selectedModules: allModules,
+    });
+    setStep(5);
+    setIsProcessing(false);
+  }
+  // ── END DEMO ONLY ──────────────────────────────────────────────────────────
 
   async function handleFinish() {
     if (unanswered > 0 || isProcessing) return;
@@ -68,6 +88,19 @@ export default function OnboardingFlow({ onComplete }) {
           >
             Get Started →
           </button>
+
+          {/* DEMO ONLY — remove before production */}
+          <p className="mt-5 text-xs text-slate-400">
+            Demoing?{" "}
+            <button
+              type="button"
+              onClick={handleDemoSkip}
+              className="underline underline-offset-2 hover:text-slate-600 transition-colors"
+            >
+              ⚡ Skip questionnaire
+            </button>
+          </p>
+          {/* END DEMO ONLY */}
         </div>
       </div>
     );
@@ -191,6 +224,19 @@ export default function OnboardingFlow({ onComplete }) {
             Build My Dashboard →
           </button>
         </div>
+
+        {/* DEMO ONLY — remove before production */}
+        <p className="mt-3 text-xs text-slate-400 text-center">
+          Demoing?{" "}
+          <button
+            type="button"
+            onClick={handleDemoSkip}
+            className="underline underline-offset-2 hover:text-slate-600 transition-colors"
+          >
+            ⚡ Skip questionnaire
+          </button>
+        </p>
+        {/* END DEMO ONLY */}
       </div>
     </div>
   );
