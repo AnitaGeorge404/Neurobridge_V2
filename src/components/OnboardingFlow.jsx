@@ -90,12 +90,13 @@ export default function OnboardingFlow({ onComplete }) {
                   key={challenge.id}
                   type="button"
                   onClick={() => toggleChallenge(challenge.id)}
-                  className={`rounded-xl border px-3 py-3 text-sm font-medium transition-all ${
+                  className={`rounded-xl border px-3 py-3 text-sm font-medium transition-all text-left ${
                     active
                       ? "border-green-400 bg-gradient-to-br from-green-50 to-teal-50 text-green-700 shadow-sm"
                       : "border-slate-200 bg-white text-slate-600 hover:border-green-200 hover:bg-green-50/50"
                   }`}
                 >
+                  <span className="mr-1.5">{challenge.emoji}</span>
                   {challenge.label}
                 </button>
               );

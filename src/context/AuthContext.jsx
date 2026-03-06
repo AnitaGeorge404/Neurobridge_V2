@@ -437,7 +437,7 @@ export function AuthProvider({ children }) {
         const fullUser = {
           ...mockUser,
           ...persisted,
-          onboardingCompleted: false,
+          onboardingCompleted: persisted.onboardingCompleted ?? false,
           _supabase: false,
         };
         localStorage.setItem("nb_auth", JSON.stringify(fullUser));

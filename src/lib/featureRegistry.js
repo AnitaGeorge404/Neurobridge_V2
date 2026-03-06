@@ -58,6 +58,13 @@ export const FEATURES = /** @type {const} */ ({
   DYSPRAXIA_HAPTIC:   "dyspraxia.haptic-pacer",
   DYSPRAXIA_AR:       "dyspraxia.ar-instructions",
   DYSPRAXIA_ROUTE:    "dyspraxia.safe-route",
+
+  // ── ASD sub-features ────────────────────────
+  ASD_ROUTINE:  "asd.routine",
+  ASD_SENSORY:  "asd.sensory",
+  ASD_STORIES:  "asd.stories",
+  ASD_MELTDOWN: "asd.meltdown",
+  ASD_EMOTION:  "asd.emotion",
 });
 
 // ─────────────────────────────────────────────
@@ -215,6 +222,28 @@ export const FEATURE_REGISTRY = {
   [FEATURES.DYSPRAXIA_ROUTE]: {
     label: "Safe Route Planner",
     disorders: [DISORDERS.DYSPRAXIA],
+  },
+
+  // ── ASD sub-features ────────────────────────
+  [FEATURES.ASD_ROUTINE]: {
+    label: "Routine Visualizer",
+    disorders: [DISORDERS.ASD],
+  },
+  [FEATURES.ASD_SENSORY]: {
+    label: "Sensory Regulation",
+    disorders: [DISORDERS.ASD],
+  },
+  [FEATURES.ASD_STORIES]: {
+    label: "Social Story Builder",
+    disorders: [DISORDERS.ASD],
+  },
+  [FEATURES.ASD_MELTDOWN]: {
+    label: "Meltdown Prevention",
+    disorders: [DISORDERS.ASD],
+  },
+  [FEATURES.ASD_EMOTION]: {
+    label: "Emotional Check-in",
+    disorders: [DISORDERS.ASD],
   },
 };
 

@@ -1,14 +1,14 @@
 import { FEATURES } from "@/lib/featureRegistry";
 
 export const CHALLENGE_CATEGORIES = [
-  { id: "ocd", label: "OCD" },
-  { id: "asd", label: "ASD" },
-  { id: "dyslexia", label: "Dyslexia" },
-  { id: "dyscalculia", label: "Dyscalculia" },
-  { id: "dyspraxia", label: "Dyspraxia" },
-  { id: "adhd", label: "ADHD" },
-  { id: "anxiety", label: "Anxiety" },
-  { id: "depression", label: "Depression" },
+  { id: "ocd",          label: "Repetitive Thoughts",    emoji: "🔄" },
+  { id: "asd",          label: "Sensory & Social",       emoji: "🌿" },
+  { id: "dyslexia",     label: "Reading & Writing",      emoji: "📖" },
+  { id: "dyscalculia",  label: "Numbers & Maths",        emoji: "🔢" },
+  { id: "dyspraxia",    label: "Movement & Coordination",emoji: "🤸" },
+  { id: "adhd",         label: "Focus & Attention",      emoji: "⚡" },
+  { id: "anxiety",      label: "Anxiety & Stress",       emoji: "💨" },
+  { id: "depression",   label: "Low Mood & Energy",      emoji: "🌤️" },
 ];
 
 export const MODULES_REGISTRY = {
@@ -132,13 +132,45 @@ export const MODULES_REGISTRY = {
     launchRoute: "/dyscalculia",
     tags: ["number_confusion", "step_support", "working_memory"],
   },
-  [FEATURES.ASD]: {
-    id: FEATURES.ASD,
-    title: "Grounding Toolkit",
-    description: "Use sensory grounding for overload moments.",
-    icon: "Brain",
-    launchRoute: "/asd",
-    tags: ["panic", "overwhelm", "social_stress"],
+  [FEATURES.ASD_ROUTINE]: {
+    id: FEATURES.ASD_ROUTINE,
+    title: "Routine Visualizer",
+    description: "Build and track daily routines with visual timeline support.",
+    icon: "Clock",
+    launchRoute: "/asd/routine",
+    tags: ["routine", "stability"],
+  },
+  [FEATURES.ASD_SENSORY]: {
+    id: FEATURES.ASD_SENSORY,
+    title: "Sensory Regulation",
+    description: "Tune sensory thresholds and access calming tools.",
+    icon: "Activity",
+    launchRoute: "/asd/sensory",
+    tags: ["sensory_overload", "overwhelm"],
+  },
+  [FEATURES.ASD_STORIES]: {
+    id: FEATURES.ASD_STORIES,
+    title: "Social Story Builder",
+    description: "Practice social scenarios with visual story cards.",
+    icon: "BookOpen",
+    launchRoute: "/asd/stories",
+    tags: ["social_stress", "communication"],
+  },
+  [FEATURES.ASD_MELTDOWN]: {
+    id: FEATURES.ASD_MELTDOWN,
+    title: "Meltdown Prevention",
+    description: "Risk awareness and calming workflow for overload moments.",
+    icon: "Shield",
+    launchRoute: "/asd/meltdown",
+    tags: ["panic", "overwhelm"],
+  },
+  [FEATURES.ASD_EMOTION]: {
+    id: FEATURES.ASD_EMOTION,
+    title: "Emotional Check-in",
+    description: "Tap emotion cards to hear support guidance aloud.",
+    icon: "Smile",
+    launchRoute: "/asd/emotion",
+    tags: ["emotion_regulation", "social_stress"],
   },
   [FEATURES.DYSPRAXIA]: {
     id: FEATURES.DYSPRAXIA,
@@ -339,7 +371,13 @@ export const CHALLENGE_MODULE_MAP = {
     FEATURES.OCD_HEATMAP,
     FEATURES.ANXIETY,
   ],
-  asd: [FEATURES.ASD, FEATURES.ANXIETY, FEATURES.ADHD_EMOTION, FEATURES.APD, FEATURES.DEPRESSION],
+  asd: [
+    FEATURES.ASD_ROUTINE,
+    FEATURES.ASD_SENSORY,
+    FEATURES.ASD_STORIES,
+    FEATURES.ASD_MELTDOWN,
+    FEATURES.ASD_EMOTION,
+  ],
   dyslexia: [
     FEATURES.DYSLEXIA,
     "dyslexia.adaptive-reading",

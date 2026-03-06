@@ -22,6 +22,11 @@ import SupportDashboard from "./pages/support/SupportDashboard";
 import ToolWorkspace from "./pages/ToolWorkspace";
 
 import ASDPage from "./pages/ASDPage";
+import ASDRoutinePage from "./pages/asd/ASDRoutinePage";
+import ASDSensoryPage from "./pages/asd/ASDSensoryPage";
+import ASDStoriesPage from "./pages/asd/ASDStoriesPage";
+import ASDMeltdownPage from "./pages/asd/ASDMeltdownPage";
+import ASDEmotionPage from "./pages/asd/ASDEmotionPage";
 
 import ADHDDashboard from "./pages/adhd/ADHDDashboard";
 import EmotionCoach from "./pages/adhd/EmotionCoach";
@@ -125,8 +130,48 @@ function ShellRoutes() {
         <Route
           path="/asd"
           element={
-            <ProtectedRoute feature={FEATURES.ASD}>
+            <ProtectedRoute role="user">
               <ASDPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/asd/routine"
+          element={
+            <ProtectedRoute role="user">
+              <ASDRoutinePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/asd/sensory"
+          element={
+            <ProtectedRoute role="user">
+              <ASDSensoryPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/asd/stories"
+          element={
+            <ProtectedRoute role="user">
+              <ASDStoriesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/asd/meltdown"
+          element={
+            <ProtectedRoute role="user">
+              <ASDMeltdownPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/asd/emotion"
+          element={
+            <ProtectedRoute role="user">
+              <ASDEmotionPage />
             </ProtectedRoute>
           }
         />

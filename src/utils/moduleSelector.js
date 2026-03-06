@@ -1,111 +1,95 @@
+/**
+ * moduleSelector.js — Adaptive Module Scoring Engine
+ *
+ * Algorithm:
+ *  1. Merge tagScores from every answered question.
+ *  2. Score each candidate module as the sum of tagScores[tag] for each
+ *     tag the module declares.
+ *  3. Enable modules whose score >= THRESHOLD.
+ *  4. Enforce MIN_MODULES and MAX_MODULES bounds.
+ *  5. Guarantee at least one module per selected challenge area.
+ */
+
 import { CHALLENGE_MODULE_MAP, getModulesForChallenges } from "@/data/modulesRegistry";
 import { getQuestionsForChallenges } from "@/utils/questionEngine";
 
-// Score >= this → module is "unlocked" by the questionnaire
-const MATCH_THRESHOLD = 1;
-// Always show at least this many (even if nothing scored well)
-const MIN_MODULES = 2;
-// Never show more than this on the home screen — prevents all-enabled feeling
-const MAX_MODULES = 8;
-const BOOST_WEIGHT = 3;
+const THRESHOLD   = 2;   // min score to unlock a module
+const MIN_MODULES = 2;   // never show fewer than this
+const MAX_MODULES = 8;   // never show more than this
 
-export function buildTagProfile(answersByQuestionId = {}, questions = []) {
-  const tags = {};
-
+// ── Build cumulative tag scores from all answers ──────────────────
+export function buildTagScores(answersByQuestionId = {}, questions = []) {
+  const scores = {};
   for (const question of questions) {
-    const selectedOptionText = answersByQuestionId[question.id];
-    if (!selectedOptionText) continue;
-    const selected = question.options.find((option) => option.text === selectedOptionText);
-    if (!selected) continue;
-
-    for (const tag of selected.tags || []) {
-      tags[tag] = (tags[tag] || 0) + 1;
+    const selectedText = answersByQuestionId[question.id];
+    if (!selectedText) continue;
+    const option = question.options.find((o) => o.text === selectedText);
+    if (!option?.tagScores) continue;
+    for (const [tag, weight] of Object.entries(option.tagScores)) {
+      scores[tag] = (scores[tag] || 0) + weight;
     }
   }
-
-  return tags;
+  return scores;
 }
 
-export function buildModuleBoostProfile(answersByQuestionId = {}, questions = []) {
-  const boosts = {};
-
-  for (const question of questions) {
-    const selectedOptionText = answersByQuestionId[question.id];
-    if (!selectedOptionText) continue;
-    const selected = question.options.find((option) => option.text === selectedOptionText);
-    if (!selected) continue;
-
-    for (const moduleId of selected.moduleBoosts || []) {
-      boosts[moduleId] = (boosts[moduleId] || 0) + 1;
-    }
-  }
-
-  return boosts;
+// ── Score a single module against the accumulated tag scores ──────
+export function scoreModule(tagScores = {}, module) {
+  return (module.tags || []).reduce((sum, tag) => sum + (tagScores[tag] || 0), 0);
 }
 
-export function scoreModules(userTags = {}, moduleBoosts = {}, modules = []) {
+// ── Score all candidate modules and sort descending ───────────────
+export function scoreModules(tagScores = {}, modules = []) {
   return modules
-    .map((module) => {
-      const tagScore = (module.tags || []).reduce((sum, tag) => sum + (userTags[tag] || 0), 0);
-      const boostScore = (moduleBoosts[module.id] || 0) * BOOST_WEIGHT;
-      return { ...module, score: tagScore + boostScore, tagScore, boostScore };
-    })
+    .map((m) => ({ ...m, score: scoreModule(tagScores, m) }))
     .sort((a, b) => b.score - a.score);
 }
 
-function ensureChallengeCoverage(selectedModules = [], selectedChallenges = [], scoredModules = []) {
-  const selectedIds = new Set(selectedModules.map((module) => module.id));
-  const scoredById = new Map(scoredModules.map((module) => [module.id, module]));
+// ── Guarantee at least one module per selected challenge area ─────
+function ensureChallengeCoverage(enabledSet, selectedChallenges, scoredModules) {
+  const byId = new Map(scoredModules.map((m) => [m.id, m]));
 
   for (const challengeId of selectedChallenges) {
-    const challengeModuleIds = CHALLENGE_MODULE_MAP[challengeId] || [];
-    const hasCoverage = challengeModuleIds.some((moduleId) => selectedIds.has(moduleId));
-    if (hasCoverage) continue;
+    const pool = CHALLENGE_MODULE_MAP[challengeId] || [];
+    const alreadyCovered = pool.some((id) => enabledSet.has(id));
+    if (alreadyCovered) continue;
 
-    const fallbackModule = challengeModuleIds
-      .map((moduleId) => scoredById.get(moduleId))
-      .find(Boolean);
-
-    if (!fallbackModule) continue;
-    selectedModules.push(fallbackModule);
-    selectedIds.add(fallbackModule.id);
+    // Pick the highest-scored module from this challenge pool
+    const best = pool.map((id) => byId.get(id)).filter(Boolean)[0];
+    if (best) enabledSet.add(best.id);
   }
 
-  return selectedModules;
+  return enabledSet;
 }
 
+// ── Main entry point ─────────────────────────────────────────────
 export function selectModulesForUser({ selectedChallenges = [], answersByQuestionId = {} }) {
-  const questions = getQuestionsForChallenges(selectedChallenges);
-  const userTags = buildTagProfile(answersByQuestionId, questions);
-  const moduleBoosts = buildModuleBoostProfile(answersByQuestionId, questions);
-  const candidateModules = getModulesForChallenges(selectedChallenges);
-  const scored = scoreModules(userTags, moduleBoosts, candidateModules);
+  const questions      = getQuestionsForChallenges(selectedChallenges);
+  const tagScores      = buildTagScores(answersByQuestionId, questions);
+  const candidatePool  = getModulesForChallenges(selectedChallenges);
+  const scored         = scoreModules(tagScores, candidatePool);
 
-  // Modules that directly scored from questionnaire answers
-  const selected = scored.filter((module) => module.score >= MATCH_THRESHOLD);
+  // Modules that passed the threshold
+  const passing = scored.filter((m) => m.score >= THRESHOLD);
 
-  // Guarantee a minimum so the home screen is never empty
-  const withMinimum = selected.length >= MIN_MODULES ? selected : scored.slice(0, MIN_MODULES);
+  // Enforce minimum — if not enough passed, fill from top scorers
+  const base = passing.length >= MIN_MODULES ? passing : scored.slice(0, MIN_MODULES);
 
-  // Enforce max cap — questionnaire answers now meaningfully filter the list
-  const capped = withMinimum.slice(0, MAX_MODULES);
+  // Build a set capped at MAX_MODULES
+  const enabledSet = new Set(base.slice(0, MAX_MODULES).map((m) => m.id));
 
-  const withCoverage = ensureChallengeCoverage([...capped], selectedChallenges, scored);
+  // Guarantee coverage for every selected challenge
+  ensureChallengeCoverage(enabledSet, selectedChallenges, scored);
 
-  const uniqueFinal = [];
-  const seenIds = new Set();
-  for (const module of withCoverage) {
-    if (seenIds.has(module.id)) continue;
-    seenIds.add(module.id);
-    uniqueFinal.push(module);
-  }
+  // Resolve final unique ordered list (preserve score order)
+  const finalModules = scored.filter((m) => enabledSet.has(m.id));
 
   return {
     questions,
-    userTags,
-    moduleBoosts,
+    tagScores,
     scoredModules: scored,
-    enabledModules: uniqueFinal.map((module) => module.id),
-    selectedModules: uniqueFinal,
+    enabledModules: finalModules.map((m) => m.id),
+    selectedModules: finalModules,
+    // legacy alias kept for OnboardingFlow
+    userTags: tagScores,
   };
 }

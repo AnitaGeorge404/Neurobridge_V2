@@ -1,379 +1,514 @@
-import { FEATURES } from "@/lib/featureRegistry";
+/**
+ * questionsRegistry.js
+ *
+ * Each answer option carries a `tagScores` map.
+ *   Often    → +2 per relevant tag
+ *   Sometimes → +1 per relevant tag
+ *   Never/No  → {} (no contribution)
+ *
+ * The scoring engine (moduleSelector.js) sums all tagScores from the
+ * user's answers, then computes each module's score as the sum of
+ * tagScores[tag] for every tag the module declares.
+ * A module is enabled when its score ≥ THRESHOLD (default 2).
+ */
 
 export const QUESTIONS_REGISTRY = {
+  // ── OCD ──────────────────────────────────────────────────────────
   ocd: [
     {
       id: "ocd_urge_repeat",
       question: "Do you feel strong urges to repeat actions until they feel exactly right?",
       options: [
-        { text: "Often", tags: ["compulsion", "urge_control"], moduleBoosts: [FEATURES.OCD_RITUAL_DELAYER, FEATURES.OCD_HEATMAP] },
-        { text: "Sometimes", tags: ["compulsion"], moduleBoosts: [FEATURES.OCD_RITUAL_DELAYER] },
-        { text: "Rarely", tags: [] },
+        { text: "Never",     tagScores: {} },
+        { text: "Sometimes", tagScores: { compulsion: 1, urge_control: 1 } },
+        { text: "Often",     tagScores: { compulsion: 2, urge_control: 2 } },
       ],
     },
     {
-      id: "ocd_avoidance",
-      question: "Do you avoid places or situations to prevent fear or discomfort?",
+      id: "ocd_checking",
+      question: "Do you re-check things (locks, appliances, messages) even when you know they are fine?",
       options: [
-        { text: "Often", tags: ["avoidance", "fear", "exposure"], moduleBoosts: [FEATURES.OCD_ERP_TRACKER, FEATURES.ANXIETY] },
-        { text: "Sometimes", tags: ["avoidance"], moduleBoosts: [FEATURES.OCD_ERP_TRACKER] },
-        { text: "Rarely", tags: [] },
+        { text: "Never",     tagScores: {} },
+        { text: "Sometimes", tagScores: { compulsion: 1 } },
+        { text: "Often",     tagScores: { compulsion: 2, urge_control: 1 } },
       ],
     },
     {
       id: "ocd_intrusive",
-      question: "Do unwanted or distressing thoughts come into your mind and stick around?",
+      question: "Do unwanted or distressing thoughts pop into your mind and stick around?",
       options: [
-        { text: "Often", tags: ["intrusive_thoughts", "rumination"], moduleBoosts: [FEATURES.OCD_LOGIC_JOURNAL, FEATURES.OCD_ERP_TRACKER] },
-        { text: "Sometimes", tags: ["intrusive_thoughts"], moduleBoosts: [FEATURES.OCD_LOGIC_JOURNAL] },
-        { text: "Rarely", tags: [] },
+        { text: "Never",     tagScores: {} },
+        { text: "Sometimes", tagScores: { intrusive_thoughts: 1 } },
+        { text: "Often",     tagScores: { intrusive_thoughts: 2, rumination: 1 } },
+      ],
+    },
+    {
+      id: "ocd_mental_replay",
+      question: "Do you replay past events or words to check whether something went wrong?",
+      options: [
+        { text: "Never",     tagScores: {} },
+        { text: "Sometimes", tagScores: { rumination: 1, intrusive_thoughts: 1 } },
+        { text: "Often",     tagScores: { rumination: 2, intrusive_thoughts: 1 } },
+      ],
+    },
+    {
+      id: "ocd_avoidance",
+      question: "Do you avoid places, objects or situations to prevent uncomfortable feelings?",
+      options: [
+        { text: "Never",     tagScores: {} },
+        { text: "Sometimes", tagScores: { avoidance: 1, fear: 1 } },
+        { text: "Often",     tagScores: { avoidance: 2, fear: 2, exposure: 1 } },
       ],
     },
     {
       id: "ocd_triggers",
-      question: "Are there specific places, objects or times when urges or thoughts are strongest?",
+      question: "Are there specific times or places where urges or thoughts are much stronger?",
       options: [
-        { text: "Yes, clearly", tags: ["triggers", "patterns", "compulsion"], moduleBoosts: [FEATURES.OCD_HEATMAP, FEATURES.OCD_RITUAL_DELAYER] },
-        { text: "Sort of", tags: ["triggers"], moduleBoosts: [FEATURES.OCD_HEATMAP] },
-        { text: "Not really", tags: [] },
+        { text: "Not really", tagScores: {} },
+        { text: "Sort of",    tagScores: { triggers: 1, patterns: 1 } },
+        { text: "Clearly yes", tagScores: { triggers: 2, patterns: 2, compulsion: 1 } },
       ],
     },
     {
-      id: "ocd_exposure",
-      question: "Would practicing gradual exposure to feared situations help you build tolerance?",
+      id: "ocd_anxiety_build",
+      question: "Does physical anxiety (tight chest, racing heart) build up before or during rituals?",
       options: [
-        { text: "Yes", tags: ["exposure", "fear"], moduleBoosts: [FEATURES.OCD_ERP_TRACKER, FEATURES.ANXIETY] },
-        { text: "Maybe", tags: ["exposure"], moduleBoosts: [FEATURES.OCD_ERP_TRACKER] },
-        { text: "Not yet", tags: [] },
+        { text: "Never",     tagScores: {} },
+        { text: "Sometimes", tagScores: { anxiety: 1, panic: 1 } },
+        { text: "Often",     tagScores: { anxiety: 2, panic: 2 } },
       ],
     },
   ],
+
+  // ── ASD ──────────────────────────────────────────────────────────
   asd: [
     {
-      id: "asd_overload",
-      question: "Do sensory-heavy environments (noise, lights, crowds) quickly become overwhelming?",
+      id: "asd_sensory_overload",
+      question: "Do noisy or bright environments quickly become overwhelming?",
       options: [
-        { text: "Often", tags: ["overwhelm", "sensory_overload", "panic"], moduleBoosts: [FEATURES.ASD, FEATURES.ANXIETY] },
-        { text: "Sometimes", tags: ["sensory_overload"], moduleBoosts: [FEATURES.ASD] },
-        { text: "Rarely", tags: [] },
+        { text: "Never",     tagScores: {} },
+        { text: "Sometimes", tagScores: { sensory_overload: 1, overwhelm: 1 } },
+        { text: "Often",     tagScores: { sensory_overload: 2, overwhelm: 2 } },
+      ],
+    },
+    {
+      id: "asd_routine_disruption",
+      question: "Do unexpected changes to your daily routine significantly increase your stress?",
+      options: [
+        { text: "Never",     tagScores: {} },
+        { text: "Sometimes", tagScores: { routine: 1, stability: 1 } },
+        { text: "Often",     tagScores: { routine: 2, stability: 2 } },
       ],
     },
     {
       id: "asd_social_decode",
-      question: "Would structured social guidance help you handle uncertain interactions?",
+      question: "Do you find it hard to read tone, sarcasm or unspoken social rules?",
       options: [
-        { text: "Yes", tags: ["social_stress", "planning"], moduleBoosts: [FEATURES.APD, FEATURES.ASD] },
-        { text: "Sometimes", tags: ["social_stress"], moduleBoosts: [FEATURES.APD] },
-        { text: "No", tags: [] },
-      ],
-    },
-    {
-      id: "asd_routine",
-      question: "Do unexpected changes to your routine significantly increase stress?",
-      options: [
-        { text: "Often", tags: ["routine", "stability", "stress"], moduleBoosts: [FEATURES.ASD, FEATURES.DYSPRAXIA] },
-        { text: "Sometimes", tags: ["routine"], moduleBoosts: [FEATURES.ASD] },
-        { text: "Rarely", tags: [] },
-      ],
-    },
-    {
-      id: "asd_communication",
-      question: "Do you find it hard to interpret tone, sarcasm or unspoken social rules?",
-      options: [
-        { text: "Often", tags: ["social_stress", "avoidance"], moduleBoosts: [FEATURES.APD, FEATURES.ADHD_EMOTION] },
-        { text: "Sometimes", tags: ["social_stress"], moduleBoosts: [FEATURES.APD] },
-        { text: "Not much", tags: [] },
+        { text: "Not much",  tagScores: {} },
+        { text: "Sometimes", tagScores: { social_stress: 1, communication: 1 } },
+        { text: "Often",     tagScores: { social_stress: 2, communication: 2 } },
       ],
     },
     {
       id: "asd_meltdown",
-      question: "When overloaded, do you need a quick calming strategy to exit the moment?",
+      question: "When overloaded, do you experience strong reactions that are hard to stop?",
       options: [
-        { text: "Yes", tags: ["panic", "emotion_regulation"], moduleBoosts: [FEATURES.ANXIETY, FEATURES.ADHD_EMOTION] },
-        { text: "Sometimes", tags: ["emotion_regulation"], moduleBoosts: [FEATURES.ANXIETY] },
-        { text: "No", tags: [] },
+        { text: "Never",     tagScores: {} },
+        { text: "Sometimes", tagScores: { panic: 1, overwhelm: 1 } },
+        { text: "Often",     tagScores: { panic: 2, overwhelm: 2 } },
+      ],
+    },
+    {
+      id: "asd_emotion_name",
+      question: "Do you find it difficult to name or describe what you are feeling in the moment?",
+      options: [
+        { text: "Rarely",    tagScores: {} },
+        { text: "Sometimes", tagScores: { emotion_regulation: 1, social_stress: 1 } },
+        { text: "Often",     tagScores: { emotion_regulation: 2, social_stress: 1 } },
+      ],
+    },
+    {
+      id: "asd_transition_stress",
+      question: "Does switching between tasks or locations take extra mental effort?",
+      options: [
+        { text: "Rarely",    tagScores: {} },
+        { text: "Sometimes", tagScores: { stability: 1, routine: 1 } },
+        { text: "Often",     tagScores: { stability: 2, routine: 2 } },
+      ],
+    },
+    {
+      id: "asd_social_prep",
+      question: "Would practicing social scenarios in advance help you feel more prepared?",
+      options: [
+        { text: "No",        tagScores: {} },
+        { text: "Maybe",     tagScores: { social_stress: 1, communication: 1 } },
+        { text: "Yes",       tagScores: { social_stress: 2, communication: 2 } },
       ],
     },
   ],
+
+  // ── Dyslexia ──────────────────────────────────────────────────────
   dyslexia: [
     {
-      id: "dyslexia_reading_load",
-      question: "Does dense reading cause fast fatigue, skipping lines or losing your place?",
+      id: "dyslexia_reading_fatigue",
+      question: "Does reading dense text cause fast fatigue, skipped lines or losing your place?",
       options: [
-        { text: "Often", tags: ["reading_fatigue", "focus"], moduleBoosts: [FEATURES.DYSLEXIA, "dyslexia.adaptive-reading"] },
-        { text: "Sometimes", tags: ["reading_fatigue"], moduleBoosts: [FEATURES.DYSLEXIA] },
-        { text: "Rarely", tags: [] },
+        { text: "Rarely",    tagScores: {} },
+        { text: "Sometimes", tagScores: { reading_fatigue: 1, focus: 1 } },
+        { text: "Often",     tagScores: { reading_fatigue: 2, focus: 2 } },
       ],
     },
     {
-      id: "dyslexia_phonics",
+      id: "dyslexia_word_sounding",
       question: "Do you struggle to sound out unfamiliar or complex words?",
       options: [
-        { text: "Often", tags: ["working_memory", "reading_fatigue"], moduleBoosts: ["dyslexia.phonology", "dyslexia.reinforcement"] },
-        { text: "Sometimes", tags: ["working_memory"], moduleBoosts: ["dyslexia.phonology"] },
-        { text: "Rarely", tags: [] },
+        { text: "Rarely",    tagScores: {} },
+        { text: "Sometimes", tagScores: { working_memory: 1, reading_fatigue: 1 } },
+        { text: "Often",     tagScores: { working_memory: 2, reading_fatigue: 2 } },
       ],
     },
     {
       id: "dyslexia_writing",
-      question: "Do you find writing and spelling significantly harder than speaking?",
+      question: "Is writing and spelling significantly harder for you than speaking?",
       options: [
-        { text: "Often", tags: ["planning", "working_memory"], moduleBoosts: ["dyslexia.writing-assistant", "dyslexia.personal-profile"] },
-        { text: "Sometimes", tags: ["planning"], moduleBoosts: ["dyslexia.writing-assistant"] },
-        { text: "Rarely", tags: [] },
+        { text: "Rarely",    tagScores: {} },
+        { text: "Sometimes", tagScores: { planning: 1, working_memory: 1 } },
+        { text: "Often",     tagScores: { planning: 2, working_memory: 2 } },
+      ],
+    },
+    {
+      id: "dyslexia_multi_sensory",
+      question: "Does hearing words read aloud help you understand them better?",
+      options: [
+        { text: "No",    tagScores: {} },
+        { text: "A bit", tagScores: { focus: 1, stability: 1 } },
+        { text: "A lot", tagScores: { focus: 2, stability: 2 } },
       ],
     },
     {
       id: "dyslexia_night_reading",
-      question: "Would calmer reading or audio support help you settle at night?",
+      question: "Would calmer reading or audio support help you unwind at night?",
       options: [
-        { text: "Yes", tags: ["sleep", "night_rumination"], moduleBoosts: [FEATURES.DYSLEXIA, FEATURES.ADHD_SOUNDS] },
-        { text: "Maybe", tags: ["sleep"], moduleBoosts: [FEATURES.ADHD_SOUNDS] },
-        { text: "No", tags: [] },
+        { text: "No",    tagScores: {} },
+        { text: "Maybe", tagScores: { sleep: 1, night_rumination: 1 } },
+        { text: "Yes",   tagScores: { sleep: 2, night_rumination: 2 } },
       ],
     },
     {
       id: "dyslexia_profile",
-      question: "Would understanding your specific reading patterns help you improve faster?",
+      question: "Would tracking your reading patterns help you identify where to improve?",
       options: [
-        { text: "Yes", tags: ["stability", "planning"], moduleBoosts: ["dyslexia.personal-profile", "dyslexia.adaptive-reading"] },
-        { text: "Maybe", tags: ["stability"], moduleBoosts: ["dyslexia.personal-profile"] },
-        { text: "No", tags: [] },
+        { text: "No",    tagScores: {} },
+        { text: "Maybe", tagScores: { stability: 1, planning: 1 } },
+        { text: "Yes",   tagScores: { stability: 2, planning: 2 } },
       ],
     },
   ],
+
+  // ── Dyscalculia ───────────────────────────────────────────────────
   dyscalculia: [
     {
-      id: "dyscalculia_steps",
-      question: "Do multi-step calculations or number tasks get confusing without clear structure?",
+      id: "dyscalc_steps",
+      question: "Do multi-step calculations get confusing without clear written structure?",
       options: [
-        { text: "Often", tags: ["number_confusion", "step_support"], moduleBoosts: [FEATURES.DYSCALCULIA, "dyscalculia.step-practice"] },
-        { text: "Sometimes", tags: ["step_support"], moduleBoosts: ["dyscalculia.step-practice"] },
-        { text: "Rarely", tags: [] },
+        { text: "Rarely",    tagScores: {} },
+        { text: "Sometimes", tagScores: { number_confusion: 1, step_support: 1 } },
+        { text: "Often",     tagScores: { number_confusion: 2, step_support: 2 } },
       ],
     },
     {
-      id: "dyscalculia_everyday",
+      id: "dyscalc_everyday",
       question: "Do everyday tasks like budgeting or time estimation feel harder than they should?",
       options: [
-        { text: "Often", tags: ["number_confusion", "working_memory"], moduleBoosts: ["dyscalculia.real-life-math", "dyscalculia.number-sense"] },
-        { text: "Sometimes", tags: ["number_confusion"], moduleBoosts: ["dyscalculia.real-life-math"] },
-        { text: "Rarely", tags: [] },
+        { text: "Rarely",    tagScores: {} },
+        { text: "Sometimes", tagScores: { number_confusion: 1, working_memory: 1 } },
+        { text: "Often",     tagScores: { number_confusion: 2, working_memory: 2 } },
       ],
     },
     {
-      id: "dyscalculia_timing",
-      question: "Would visual timelines and schedules improve your number-related confidence?",
+      id: "dyscalc_patterns",
+      question: "Is it hard to see number patterns or sequences quickly?",
       options: [
-        { text: "Yes", tags: ["working_memory", "planning"], moduleBoosts: [FEATURES.ADHD_TIMELINE, FEATURES.DYSCALCULIA] },
-        { text: "Maybe", tags: ["planning"], moduleBoosts: [FEATURES.ADHD_TIMELINE] },
-        { text: "No", tags: [] },
+        { text: "Rarely",    tagScores: {} },
+        { text: "Sometimes", tagScores: { working_memory: 1, number_confusion: 1 } },
+        { text: "Often",     tagScores: { working_memory: 2, number_confusion: 2 } },
       ],
     },
     {
-      id: "dyscalculia_anxiety",
-      question: "Does dealing with numbers trigger stress or avoidance reactions?",
+      id: "dyscalc_anxiety",
+      question: "Do number-related tasks trigger notable stress or avoidance?",
       options: [
-        { text: "Often", tags: ["stress", "overwhelm"], moduleBoosts: ["dyscalculia.calm-mode", FEATURES.ANXIETY] },
-        { text: "Sometimes", tags: ["stress"], moduleBoosts: ["dyscalculia.calm-mode"] },
-        { text: "Rarely", tags: [] },
+        { text: "Rarely",    tagScores: {} },
+        { text: "Sometimes", tagScores: { stress: 1, overwhelm: 1 } },
+        { text: "Often",     tagScores: { stress: 2, overwhelm: 2 } },
       ],
     },
     {
-      id: "dyscalculia_patterns",
-      question: "Do you struggle to see number patterns or sequences quickly?",
+      id: "dyscalc_timeline",
+      question: "Would visual timelines or schedules help you manage number-related tasks?",
       options: [
-        { text: "Often", tags: ["working_memory", "number_confusion"], moduleBoosts: ["dyscalculia.patterns", "dyscalculia.number-sense"] },
-        { text: "Sometimes", tags: ["working_memory"], moduleBoosts: ["dyscalculia.patterns"] },
-        { text: "Rarely", tags: [] },
+        { text: "No",    tagScores: {} },
+        { text: "Maybe", tagScores: { planning: 1, working_memory: 1 } },
+        { text: "Yes",   tagScores: { planning: 2, working_memory: 2 } },
+      ],
+    },
+    {
+      id: "dyscalc_daily_budget",
+      question: "Do you avoid tasks that require handling money or estimating quantities?",
+      options: [
+        { text: "Rarely",    tagScores: {} },
+        { text: "Sometimes", tagScores: { step_support: 1, number_confusion: 1 } },
+        { text: "Often",     tagScores: { step_support: 2, number_confusion: 2 } },
       ],
     },
   ],
+
+  // ── Dyspraxia ─────────────────────────────────────────────────────
   dyspraxia: [
     {
       id: "dyspraxia_sequence",
-      question: "Do movement or daily routines feel easier with step-by-step sequencing?",
+      question: "Do daily movement routines feel easier when broken into clear steps?",
       options: [
-        { text: "Often", tags: ["routine", "planning", "step_support"], moduleBoosts: [FEATURES.DYSPRAXIA, FEATURES.ADHD_BREAKDOWN] },
-        { text: "Sometimes", tags: ["routine"], moduleBoosts: [FEATURES.DYSPRAXIA] },
-        { text: "Rarely", tags: [] },
+        { text: "Rarely",    tagScores: {} },
+        { text: "Sometimes", tagScores: { routine: 1, step_support: 1 } },
+        { text: "Often",     tagScores: { routine: 2, step_support: 2 } },
       ],
     },
     {
       id: "dyspraxia_stress",
-      question: "Do coordination-heavy or physical tasks quickly raise your stress or frustration?",
+      question: "Do coordination-heavy tasks quickly raise your stress or frustration?",
       options: [
-        { text: "Often", tags: ["stress", "overwhelm"], moduleBoosts: [FEATURES.ANXIETY, FEATURES.DYSPRAXIA] },
-        { text: "Sometimes", tags: ["stress"], moduleBoosts: [FEATURES.ANXIETY] },
-        { text: "Rarely", tags: [] },
+        { text: "Rarely",    tagScores: {} },
+        { text: "Sometimes", tagScores: { stress: 1, overwhelm: 1 } },
+        { text: "Often",     tagScores: { stress: 2, overwhelm: 2 } },
       ],
     },
     {
-      id: "dyspraxia_instructions",
+      id: "dyspraxia_visual_instructions",
       question: "Do visual or illustrated instructions help you complete tasks more accurately?",
       options: [
-        { text: "Yes", tags: ["step_support", "planning"], moduleBoosts: [FEATURES.DYSPRAXIA_AR, FEATURES.DYSPRAXIA_AOMI] },
-        { text: "Sometimes", tags: ["step_support"], moduleBoosts: [FEATURES.DYSPRAXIA_AR] },
-        { text: "No", tags: [] },
+        { text: "No",    tagScores: {} },
+        { text: "A bit", tagScores: { step_support: 1, planning: 1 } },
+        { text: "A lot", tagScores: { step_support: 2, planning: 2 } },
       ],
     },
     {
       id: "dyspraxia_timing",
-      question: "Do regular rhythm or pacing cues help you stay coordinated through a task?",
+      question: "Do rhythmic or pacing cues help you stay coordinated through a task?",
       options: [
-        { text: "Yes", tags: ["stability", "routine"], moduleBoosts: [FEATURES.DYSPRAXIA_HAPTIC, FEATURES.ADHD_TIMELINE] },
-        { text: "Sometimes", tags: ["stability"], moduleBoosts: [FEATURES.DYSPRAXIA_HAPTIC] },
-        { text: "No", tags: [] },
+        { text: "No",    tagScores: {} },
+        { text: "A bit", tagScores: { stability: 1, routine: 1 } },
+        { text: "A lot", tagScores: { stability: 2, routine: 2 } },
       ],
     },
     {
-      id: "dyspraxia_planning",
-      question: "Do you need to plan routes or navigation in advance to manage physical tasks?",
+      id: "dyspraxia_route",
+      question: "Do you need to plan routes or navigation in advance for physical comfort?",
       options: [
-        { text: "Often", tags: ["planning", "stress"], moduleBoosts: [FEATURES.DYSPRAXIA_ROUTE, FEATURES.ADHD_TIMELINE] },
-        { text: "Sometimes", tags: ["planning"], moduleBoosts: [FEATURES.DYSPRAXIA_ROUTE] },
-        { text: "Rarely", tags: [] },
+        { text: "Rarely",    tagScores: {} },
+        { text: "Sometimes", tagScores: { planning: 1, stress: 1 } },
+        { text: "Often",     tagScores: { planning: 2, stress: 2 } },
+      ],
+    },
+    {
+      id: "dyspraxia_calm",
+      question: "Does overwhelming physical difficulty sometimes make you want to give up?",
+      options: [
+        { text: "Rarely",    tagScores: {} },
+        { text: "Sometimes", tagScores: { stress: 1, stability: 1 } },
+        { text: "Often",     tagScores: { stress: 2, stability: 2 } },
       ],
     },
   ],
-  anxiety: [
-    {
-      id: "anx_physical",
-      question: "Do physical stress signs (racing heart, chest tightness) make it hard to function?",
-      options: [
-        { text: "Often", tags: ["physical_anxiety", "panic"], moduleBoosts: [FEATURES.ANXIETY, FEATURES.ADHD_EMOTION] },
-        { text: "Sometimes", tags: ["stress"], moduleBoosts: [FEATURES.ANXIETY] },
-        { text: "Rarely", tags: [] },
-      ],
-    },
-    {
-      id: "anx_rumination",
-      question: "Do worry loops or intrusive thoughts continue for long periods?",
-      options: [
-        { text: "Often", tags: ["rumination", "intrusive_thoughts"], moduleBoosts: [FEATURES.OCD_LOGIC_JOURNAL, FEATURES.DEPRESSION] },
-        { text: "Sometimes", tags: ["rumination"], moduleBoosts: [FEATURES.OCD_LOGIC_JOURNAL] },
-        { text: "Rarely", tags: [] },
-      ],
-    },
-    {
-      id: "anx_social",
-      question: "Does anticipating social situations or interactions cause significant anxiety?",
-      options: [
-        { text: "Often", tags: ["social_stress", "avoidance"], moduleBoosts: [FEATURES.APD, FEATURES.ASD] },
-        { text: "Sometimes", tags: ["social_stress"], moduleBoosts: [FEATURES.APD] },
-        { text: "Rarely", tags: [] },
-      ],
-    },
-    {
-      id: "anx_recovery",
-      question: "Do you need guided steps to recover after intense stress or panic moments?",
-      options: [
-        { text: "Yes", tags: ["panic", "emotion_regulation"], moduleBoosts: [FEATURES.ADHD_EMOTION, FEATURES.ANXIETY] },
-        { text: "Sometimes", tags: ["emotion_regulation"], moduleBoosts: [FEATURES.ADHD_EMOTION] },
-        { text: "No", tags: [] },
-      ],
-    },
-    {
-      id: "anx_sleep",
-      question: "Does anxiety regularly affect your ability to fall or stay asleep?",
-      options: [
-        { text: "Often", tags: ["sleep", "night_rumination"], moduleBoosts: [FEATURES.ADHD_SOUNDS, FEATURES.DEPRESSION] },
-        { text: "Sometimes", tags: ["sleep"], moduleBoosts: [FEATURES.ADHD_SOUNDS] },
-        { text: "Rarely", tags: [] },
-      ],
-    },
-  ],
+
+  // ── ADHD ──────────────────────────────────────────────────────────
   adhd: [
     {
       id: "adhd_overwhelm",
-      question: "Do large tasks often feel so overwhelming that you freeze and can't start?",
+      question: "Do large tasks often feel so overwhelming that you freeze before starting?",
       options: [
-        { text: "Yes", tags: ["overwhelm", "planning", "task_start"], moduleBoosts: [FEATURES.ADHD_BREAKDOWN, FEATURES.ADHD_TIMELINE] },
-        { text: "Sometimes", tags: ["planning"], moduleBoosts: [FEATURES.ADHD_BREAKDOWN] },
-        { text: "No", tags: [] },
+        { text: "Rarely",    tagScores: {} },
+        { text: "Sometimes", tagScores: { overwhelm: 1, planning: 1, task_start: 1 } },
+        { text: "Often",     tagScores: { overwhelm: 2, planning: 2, task_start: 2 } },
       ],
     },
     {
       id: "adhd_time",
-      question: "Do you lose track of time unexpectedly and miss deadlines?",
+      question: "Do you lose track of time and miss deadlines more than most people?",
       options: [
-        { text: "Often", tags: ["time_blindness"], moduleBoosts: [FEATURES.ADHD_TIMELINE, FEATURES.ADHD_FOCUS] },
-        { text: "Sometimes", tags: ["planning"], moduleBoosts: [FEATURES.ADHD_TIMELINE] },
-        { text: "Rarely", tags: [] },
+        { text: "Rarely",    tagScores: {} },
+        { text: "Sometimes", tagScores: { time_blindness: 1, planning: 1 } },
+        { text: "Often",     tagScores: { time_blindness: 2, planning: 2 } },
       ],
     },
     {
       id: "adhd_focus",
-      question: "Do you struggle to sustain focus, especially on low-stimulus tasks?",
+      question: "Do you struggle to maintain focus, especially on routine or low-stimulus tasks?",
       options: [
-        { text: "Often", tags: ["focus", "distraction"], moduleBoosts: [FEATURES.ADHD_FOCUS, FEATURES.ADHD_SOUNDS] },
-        { text: "Sometimes", tags: ["focus"], moduleBoosts: [FEATURES.ADHD_FOCUS] },
-        { text: "Rarely", tags: [] },
+        { text: "Rarely",    tagScores: {} },
+        { text: "Sometimes", tagScores: { focus: 1, distraction: 1 } },
+        { text: "Often",     tagScores: { focus: 2, distraction: 2 } },
       ],
     },
     {
       id: "adhd_emotion",
-      question: "Do emotional reactions hit suddenly and feel difficult to manage?",
+      question: "Do emotional reactions hit fast and feel difficult to manage in the moment?",
       options: [
-        { text: "Often", tags: ["emotion_regulation", "stress"], moduleBoosts: [FEATURES.ADHD_EMOTION, FEATURES.ANXIETY] },
-        { text: "Sometimes", tags: ["emotion_regulation"], moduleBoosts: [FEATURES.ADHD_EMOTION] },
-        { text: "Rarely", tags: [] },
+        { text: "Rarely",    tagScores: {} },
+        { text: "Sometimes", tagScores: { emotion_regulation: 1, stress: 1 } },
+        { text: "Often",     tagScores: { emotion_regulation: 2, stress: 2 } },
+      ],
+    },
+    {
+      id: "adhd_noise",
+      question: "Does background noise or a distracting environment affect your ability to focus?",
+      options: [
+        { text: "Rarely",    tagScores: {} },
+        { text: "Sometimes", tagScores: { focus: 1, noise_sensitivity: 1 } },
+        { text: "Often",     tagScores: { focus: 2, noise_sensitivity: 2 } },
+      ],
+    },
+    {
+      id: "adhd_sleep",
+      question: "Does an active or restless mind make it hard to fall asleep?",
+      options: [
+        { text: "Rarely",    tagScores: {} },
+        { text: "Sometimes", tagScores: { sleep: 1, night_rumination: 1 } },
+        { text: "Often",     tagScores: { sleep: 2, night_rumination: 2 } },
       ],
     },
     {
       id: "adhd_accountability",
-      question: "Does working alongside someone else (even virtually) help you stay on task?",
+      question: "Does working alongside someone — even virtually — help you stay on task?",
       options: [
-        { text: "Yes", tags: ["focus", "task_start"], moduleBoosts: [FEATURES.ADHD_DOUBLING, FEATURES.ADHD_FOCUS] },
-        { text: "Maybe", tags: ["focus"], moduleBoosts: [FEATURES.ADHD_DOUBLING] },
-        { text: "No", tags: [] },
+        { text: "No",    tagScores: {} },
+        { text: "Maybe", tagScores: { focus: 1, task_start: 1 } },
+        { text: "Yes",   tagScores: { focus: 2, task_start: 2 } },
       ],
     },
   ],
+
+  // ── Anxiety ───────────────────────────────────────────────────────
+  anxiety: [
+    {
+      id: "anx_physical",
+      question: "Do physical signs of stress (rapid heart, tight chest) make it hard to function?",
+      options: [
+        { text: "Rarely",    tagScores: {} },
+        { text: "Sometimes", tagScores: { physical_anxiety: 1, panic: 1 } },
+        { text: "Often",     tagScores: { physical_anxiety: 2, panic: 2 } },
+      ],
+    },
+    {
+      id: "anx_rumination",
+      question: "Do worry loops or intrusive thoughts continue for long stretches?",
+      options: [
+        { text: "Rarely",    tagScores: {} },
+        { text: "Sometimes", tagScores: { rumination: 1, intrusive_thoughts: 1 } },
+        { text: "Often",     tagScores: { rumination: 2, intrusive_thoughts: 2 } },
+      ],
+    },
+    {
+      id: "anx_social",
+      question: "Does anticipating social situations cause significant anxiety beforehand?",
+      options: [
+        { text: "Rarely",    tagScores: {} },
+        { text: "Sometimes", tagScores: { social_stress: 1, avoidance: 1 } },
+        { text: "Often",     tagScores: { social_stress: 2, avoidance: 2 } },
+      ],
+    },
+    {
+      id: "anx_recovery",
+      question: "Do you need guided steps to recover after intense stress or panic?",
+      options: [
+        { text: "No",        tagScores: {} },
+        { text: "Sometimes", tagScores: { panic: 1, emotion_regulation: 1 } },
+        { text: "Yes",       tagScores: { panic: 2, emotion_regulation: 2 } },
+      ],
+    },
+    {
+      id: "anx_sleep",
+      question: "Does anxiety regularly prevent you from falling or staying asleep?",
+      options: [
+        { text: "Rarely",    tagScores: {} },
+        { text: "Sometimes", tagScores: { sleep: 1, night_rumination: 1 } },
+        { text: "Often",     tagScores: { sleep: 2, night_rumination: 2 } },
+      ],
+    },
+    {
+      id: "anx_anticipatory",
+      question: "Do you spend significant time worrying about things that might go wrong?",
+      options: [
+        { text: "Rarely",    tagScores: {} },
+        { text: "Sometimes", tagScores: { anxiety: 1, avoidance: 1 } },
+        { text: "Often",     tagScores: { anxiety: 2, avoidance: 2 } },
+      ],
+    },
+  ],
+
+  // ── Depression ────────────────────────────────────────────────────
   depression: [
     {
       id: "dep_low_mood",
       question: "Do periods of low mood reduce your motivation to start or finish daily tasks?",
       options: [
-        { text: "Often", tags: ["low_mood", "task_start"], moduleBoosts: [FEATURES.DEPRESSION, FEATURES.DEPRESSION_MVH] },
-        { text: "Sometimes", tags: ["low_mood"], moduleBoosts: [FEATURES.DEPRESSION_MVH] },
-        { text: "Rarely", tags: [] },
+        { text: "Rarely",    tagScores: {} },
+        { text: "Sometimes", tagScores: { low_mood: 1, task_start: 1 } },
+        { text: "Often",     tagScores: { low_mood: 2, task_start: 2 } },
       ],
     },
     {
-      id: "dep_energy",
-      question: "Do you feel mentally exhausted or empty even on days without clear reasons?",
+      id: "dep_exhaustion",
+      question: "Do you feel mentally empty or exhausted even on days with no clear cause?",
       options: [
-        { text: "Often", tags: ["low_mood", "stability"], moduleBoosts: [FEATURES.DEPRESSION, FEATURES.DEPRESSION_VOID] },
-        { text: "Sometimes", tags: ["stability"], moduleBoosts: [FEATURES.DEPRESSION_VOID] },
-        { text: "Rarely", tags: [] },
+        { text: "Rarely",    tagScores: {} },
+        { text: "Sometimes", tagScores: { low_mood: 1, stability: 1 } },
+        { text: "Often",     tagScores: { low_mood: 2, stability: 2 } },
       ],
     },
     {
       id: "dep_thoughts",
       question: "Do negative thoughts about yourself or the future loop repeatedly?",
       options: [
-        { text: "Often", tags: ["rumination", "intrusive_thoughts"], moduleBoosts: [FEATURES.DEPRESSION_REALITY, FEATURES.DEPRESSION_PROOF] },
-        { text: "Sometimes", tags: ["rumination"], moduleBoosts: [FEATURES.DEPRESSION_REALITY] },
-        { text: "Rarely", tags: [] },
+        { text: "Rarely",    tagScores: {} },
+        { text: "Sometimes", tagScores: { rumination: 1, intrusive_thoughts: 1 } },
+        { text: "Often",     tagScores: { rumination: 2, intrusive_thoughts: 2 } },
       ],
     },
     {
       id: "dep_social",
-      question: "Do you withdraw from social connections when mood drops?",
+      question: "Do you pull back from friends or family when your mood drops?",
       options: [
-        { text: "Often", tags: ["social_stress", "low_mood"], moduleBoosts: [FEATURES.DEPRESSION_SOCIAL, FEATURES.ANXIETY] },
-        { text: "Sometimes", tags: ["social_stress"], moduleBoosts: [FEATURES.DEPRESSION_SOCIAL] },
-        { text: "Rarely", tags: [] },
+        { text: "Rarely",    tagScores: {} },
+        { text: "Sometimes", tagScores: { social_stress: 1, low_mood: 1 } },
+        { text: "Often",     tagScores: { social_stress: 2, low_mood: 2 } },
       ],
     },
     {
-      id: "dep_overwhelm",
-      question: "Does anxiety layer on top of low mood, creating spirals that are hard to exit?",
+      id: "dep_anxiety_spiral",
+      question: "Does anxiety layer on top of low mood, making it hard to break out of a spiral?",
       options: [
-        { text: "Often", tags: ["panic", "emotion_regulation", "stress"], moduleBoosts: [FEATURES.DEPRESSION_ANXIETY_DISSOLVER, FEATURES.ANXIETY] },
-        { text: "Sometimes", tags: ["emotion_regulation"], moduleBoosts: [FEATURES.DEPRESSION_ANXIETY_DISSOLVER] },
-        { text: "Rarely", tags: [] },
+        { text: "Rarely",    tagScores: {} },
+        { text: "Sometimes", tagScores: { panic: 1, emotion_regulation: 1 } },
+        { text: "Often",     tagScores: { panic: 2, emotion_regulation: 2 } },
+      ],
+    },
+    {
+      id: "dep_evidence",
+      question: "Would collecting evidence of your own strengths help challenge negative beliefs?",
+      options: [
+        { text: "No",    tagScores: {} },
+        { text: "Maybe", tagScores: { rumination: 1, intrusive_thoughts: 1 } },
+        { text: "Yes",   tagScores: { rumination: 2, intrusive_thoughts: 2 } },
+      ],
+    },
+    {
+      id: "dep_void",
+      question: "Are there times when you feel emotionally numb or disconnected from everything?",
+      options: [
+        { text: "Rarely",    tagScores: {} },
+        { text: "Sometimes", tagScores: { low_mood: 1, stability: 1 } },
+        { text: "Often",     tagScores: { low_mood: 2, stability: 2 } },
       ],
     },
   ],
