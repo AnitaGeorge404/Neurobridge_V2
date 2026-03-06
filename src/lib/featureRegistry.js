@@ -35,11 +35,12 @@ export const FEATURES = /** @type {const} */ ({
   DEPRESSION_REALITY:           "depression.cognitive-reframer",
   DEPRESSION_VOID:              "depression.void-whisper",
 
-  // ── OCD sub-features ────────────────────────
+  // ── OCD sub-features (ERP Toolkit) ────────────
   OCD_ERP_TRACKER:      "ocd.erp-tracker",
-  OCD_RITUAL_DELAYER:   "ocd.ritual-delayer",
-  OCD_HEATMAP:          "ocd.compulsion-heatmap",
-  OCD_LOGIC_JOURNAL:    "ocd.logic-journal",
+  OCD_HIERARCHY:        "ocd.exposure-hierarchy",
+  OCD_SUDS:             "ocd.suds-monitor",
+  OCD_SESSION_TIMER:    "ocd.exposure-session",
+  OCD_PROGRESS:         "ocd.progress",
 
   // ── ADHD sub-features ───────────────────────
   ADHD_FOCUS:     "adhd.focus-sessions",
@@ -54,10 +55,12 @@ export const FEATURES = /** @type {const} */ ({
   DYSLEXIA_WORDBANK: "dyslexia.word-bank",
 
   // ── Dyspraxia sub-features ──────────────────
-  DYSPRAXIA_AOMI:     "dyspraxia.aomi-library",
-  DYSPRAXIA_HAPTIC:   "dyspraxia.haptic-pacer",
-  DYSPRAXIA_AR:       "dyspraxia.ar-instructions",
-  DYSPRAXIA_ROUTE:    "dyspraxia.safe-route",
+  DYSPRAXIA_DECOMPOSE: "dyspraxia.task-decompose",
+  DYSPRAXIA_MOTOR:     "dyspraxia.motor-exercises",
+  DYSPRAXIA_BREAKDOWN: "dyspraxia.task-breakdown",
+  DYSPRAXIA_ROUTINE:   "dyspraxia.routine-scheduler",
+  DYSPRAXIA_SPATIAL:   "dyspraxia.spatial-trainer",
+  DYSPRAXIA_MOOD:      "dyspraxia.mood-tracker",
 
   // ── ASD sub-features ────────────────────────
   ASD_ROUTINE:  "asd.routine",
@@ -142,27 +145,26 @@ export const FEATURE_REGISTRY = {
     disorders: [DISORDERS.DEPRESSION],
   },
 
-  // ── OCD sub-features ────────────────────────
+  // ── OCD sub-features (ERP Toolkit) ────────────
   [FEATURES.OCD_ERP_TRACKER]: {
     label: "ERP Exposure Tracker",
     disorders: [DISORDERS.OCD],
-    modeConfig: {
-      [DISORDERS.OCD]: { showHabituation: true, showCoaching: true },
-    },
   },
-  [FEATURES.OCD_RITUAL_DELAYER]: {
-    label: "Ritual Delay Timer",
+  [FEATURES.OCD_HIERARCHY]: {
+    label: "Exposure Hierarchy Builder",
     disorders: [DISORDERS.OCD],
   },
-  [FEATURES.OCD_HEATMAP]: {
-    label: "Compulsion Heatmap",
+  [FEATURES.OCD_SUDS]: {
+    label: "SUDS Anxiety Monitor",
     disorders: [DISORDERS.OCD],
   },
-  [FEATURES.OCD_LOGIC_JOURNAL]: {
-    label: "Logic-Check Journal",
+  [FEATURES.OCD_SESSION_TIMER]: {
+    label: "Exposure Session Timer",
     disorders: [DISORDERS.OCD],
-    // Shared feature: also relevant to anxiety-driven intrusive thoughts
-    // disorders: [DISORDERS.OCD, DISORDERS.ANXIETY], — enable when anxiety page exists
+  },
+  [FEATURES.OCD_PROGRESS]: {
+    label: "ERP Progress Tracker",
+    disorders: [DISORDERS.OCD],
   },
 
   // ── ADHD sub-features ───────────────────────
@@ -184,8 +186,7 @@ export const FEATURE_REGISTRY = {
   },
   [FEATURES.ADHD_BREAKDOWN]: {
     label: "Task Breakdown",
-    // Shared: dyspraxia users also benefit from step-by-step task decomposition
-    disorders: [DISORDERS.ADHD, DISORDERS.DYSPRAXIA],
+    disorders: [DISORDERS.ADHD],
   },
   [FEATURES.ADHD_SOUNDS]: {
     label: "Focus Soundscapes",
@@ -207,20 +208,28 @@ export const FEATURE_REGISTRY = {
   },
 
   // ── Dyspraxia sub-features ──────────────────
-  [FEATURES.DYSPRAXIA_AOMI]: {
-    label: "AOMI Library",
+  [FEATURES.DYSPRAXIA_DECOMPOSE]: {
+    label: "Task Decompose",
     disorders: [DISORDERS.DYSPRAXIA],
   },
-  [FEATURES.DYSPRAXIA_HAPTIC]: {
-    label: "Haptic Pacer",
+  [FEATURES.DYSPRAXIA_MOTOR]: {
+    label: "Motor Exercises",
     disorders: [DISORDERS.DYSPRAXIA],
   },
-  [FEATURES.DYSPRAXIA_AR]: {
-    label: "AR Instructions",
+  [FEATURES.DYSPRAXIA_BREAKDOWN]: {
+    label: "Task Breakdown",
     disorders: [DISORDERS.DYSPRAXIA],
   },
-  [FEATURES.DYSPRAXIA_ROUTE]: {
-    label: "Safe Route Planner",
+  [FEATURES.DYSPRAXIA_ROUTINE]: {
+    label: "Routine Scheduler",
+    disorders: [DISORDERS.DYSPRAXIA],
+  },
+  [FEATURES.DYSPRAXIA_SPATIAL]: {
+    label: "Spatial Trainer",
+    disorders: [DISORDERS.DYSPRAXIA],
+  },
+  [FEATURES.DYSPRAXIA_MOOD]: {
+    label: "Mood Tracker",
     disorders: [DISORDERS.DYSPRAXIA],
   },
 

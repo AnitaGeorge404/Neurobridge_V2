@@ -53,17 +53,20 @@ import PatternRecognitionTrainer from "./pages/dyscalculia/PatternRecognitionTra
 import AnxietyPage from "./pages/AnxietyPage";
 import APDPage from "./pages/APDPage";
 
-import OCDDashboard from "./pages/ocd/OCDDashboard";
-import ERPHierarchy from "./pages/ocd/ERPHierarchy";
-import RitualDelayer from "./pages/ocd/RitualDelayer";
-import CompulsionHeatmap from "./pages/ocd/CompulsionHeatmap";
-import LogicCheckJournal from "./pages/ocd/LogicCheckJournal";
+import OCDPage from "./pages/ocd/OCDPage";
+import ERPExposureTracker from "./pages/ocd/ERPExposureTracker";
+import ExposureHierarchyBuilder from "./pages/ocd/ExposureHierarchyBuilder";
+import SUDSMonitor from "./pages/ocd/SUDSMonitor";
+import ExposureSessionTimer from "./pages/ocd/ExposureSessionTimer";
+import ERPProgressTracker from "./pages/ocd/ERPProgressTracker";
 
-import DyspraxiaDashboard from "./pages/dyspraxia/DyspraxiaDashboard";
-import AOMILibrary from "./pages/dyspraxia/AOMILibrary";
-import HapticPacer from "./pages/dyspraxia/HapticPacer";
-import ARInstructionCards from "./pages/dyspraxia/ARInstructionCards";
-import SafeRoutePlanner from "./pages/dyspraxia/SafeRoutePlanner";
+import DyspraxiaPage from "./pages/dyspraxia/DyspraxiaPage";
+import TaskDecomposePage from "./pages/dyspraxia/TaskDecomposePage";
+import MotorExercisesPage from "./pages/dyspraxia/MotorExercisesPage";
+import TaskBreakdownPage from "./pages/dyspraxia/TaskBreakdownPage";
+import RoutineSchedulerPage from "./pages/dyspraxia/RoutineSchedulerPage";
+import SpatialTrainerPage from "./pages/dyspraxia/SpatialTrainerPage";
+import MoodTrackerPage from "./pages/dyspraxia/MoodTrackerPage";
 
 // ── Depression ─────────────────────────────
 import DepressionDashboard from "./pages/depression/DepressionDashboard";
@@ -172,14 +175,6 @@ function ShellRoutes() {
           element={
             <ProtectedRoute role="user">
               <ASDEmotionPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/adhd"
-          element={
-            <ProtectedRoute feature={FEATURES.ADHD}>
-              <ADHDDashboard />
             </ProtectedRoute>
           }
         />
@@ -334,39 +329,47 @@ function ShellRoutes() {
           path="/ocd"
           element={
             <ProtectedRoute feature={FEATURES.OCD}>
-              <OCDDashboard />
+              <OCDPage />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/ocd/erp-hierarchy"
+          path="/ocd/exposure-tracker"
           element={
             <ProtectedRoute feature={FEATURES.OCD_ERP_TRACKER}>
-              <ERPHierarchy />
+              <ERPExposureTracker />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/ocd/ritual-delayer"
+          path="/ocd/exposure-hierarchy"
           element={
-            <ProtectedRoute feature={FEATURES.OCD_RITUAL_DELAYER}>
-              <RitualDelayer />
+            <ProtectedRoute feature={FEATURES.OCD_HIERARCHY}>
+              <ExposureHierarchyBuilder />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/ocd/compulsion-heatmap"
+          path="/ocd/suds-monitor"
           element={
-            <ProtectedRoute feature={FEATURES.OCD_HEATMAP}>
-              <CompulsionHeatmap />
+            <ProtectedRoute feature={FEATURES.OCD_SUDS}>
+              <SUDSMonitor />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/ocd/logic-journal"
+          path="/ocd/exposure-session"
           element={
-            <ProtectedRoute feature={FEATURES.OCD_LOGIC_JOURNAL}>
-              <LogicCheckJournal />
+            <ProtectedRoute feature={FEATURES.OCD_SESSION_TIMER}>
+              <ExposureSessionTimer />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/ocd/progress"
+          element={
+            <ProtectedRoute feature={FEATURES.OCD_PROGRESS}>
+              <ERPProgressTracker />
             </ProtectedRoute>
           }
         />
@@ -375,52 +378,60 @@ function ShellRoutes() {
           path="/dyspraxia"
           element={
             <ProtectedRoute feature={FEATURES.DYSPRAXIA}>
-              <DyspraxiaDashboard />
+              <DyspraxiaPage />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/dyspraxia/aomi-library"
+          path="/dyspraxia/task-decompose"
           element={
-            <ProtectedRoute feature={FEATURES.DYSPRAXIA_AOMI}>
-              <AOMILibrary />
+            <ProtectedRoute feature={FEATURES.DYSPRAXIA_DECOMPOSE}>
+              <TaskDecomposePage />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/dyspraxia/haptic-pacer"
+          path="/dyspraxia/motor-exercises"
           element={
-            <ProtectedRoute feature={FEATURES.DYSPRAXIA_HAPTIC}>
-              <HapticPacer />
+            <ProtectedRoute feature={FEATURES.DYSPRAXIA_MOTOR}>
+              <MotorExercisesPage />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/dyspraxia/ar-instructions"
+          path="/dyspraxia/task-breakdown"
           element={
-            <ProtectedRoute feature={FEATURES.DYSPRAXIA_AR}>
-              <ARInstructionCards />
+            <ProtectedRoute feature={FEATURES.DYSPRAXIA_BREAKDOWN}>
+              <TaskBreakdownPage />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/dyspraxia/safe-route"
+          path="/dyspraxia/routine-scheduler"
           element={
-            <ProtectedRoute feature={FEATURES.DYSPRAXIA_ROUTE}>
-              <SafeRoutePlanner />
+            <ProtectedRoute feature={FEATURES.DYSPRAXIA_ROUTINE}>
+              <RoutineSchedulerPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dyspraxia/spatial-trainer"
+          element={
+            <ProtectedRoute feature={FEATURES.DYSPRAXIA_SPATIAL}>
+              <SpatialTrainerPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dyspraxia/mood-tracker"
+          element={
+            <ProtectedRoute feature={FEATURES.DYSPRAXIA_MOOD}>
+              <MoodTrackerPage />
             </ProtectedRoute>
           }
         />
 
         {/* Depression */}
-        <Route
-          path="/depression"
-          element={
-            <ProtectedRoute feature={FEATURES.DEPRESSION}>
-              <DepressionDashboard />
-            </ProtectedRoute>
-          }
-        />
         <Route
           path="/depression/mvh"
           element={
