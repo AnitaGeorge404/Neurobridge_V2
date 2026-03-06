@@ -46,6 +46,7 @@ import CalmMode from "./pages/dyscalculia/CalmMode";
 import PatternRecognitionTrainer from "./pages/dyscalculia/PatternRecognitionTrainer";
 
 import AnxietyPage from "./pages/AnxietyPage";
+import APDPage from "./pages/APDPage";
 
 import OCDDashboard from "./pages/ocd/OCDDashboard";
 import ERPHierarchy from "./pages/ocd/ERPHierarchy";
@@ -429,6 +430,14 @@ function ShellRoutes() {
           element={
             <ProtectedRoute feature={FEATURES.ANXIETY}>
               <AnxietyPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/apd"
+          element={
+            <ProtectedRoute feature={FEATURES.APD}>
+              <APDPage />
             </ProtectedRoute>
           }
         />

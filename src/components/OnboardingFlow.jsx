@@ -13,6 +13,10 @@ export default function OnboardingFlow({ onComplete }) {
   const challengeList = [...selectedChallenges];
   const questions = useMemo(() => getQuestionsForChallenges(challengeList), [challengeList]);
   const unanswered = questions.filter((question) => !answers[question.id]).length;
+  const recommendationPreview = useMemo(
+    () => selectModulesForUser({ selectedChallenges: challengeList, answersByQuestionId: answers }).selectedModules,
+    [challengeList, answers],
+  );
 
   function toggleChallenge(id) {
     setSelectedChallenges((prev) => {
@@ -94,7 +98,12 @@ export default function OnboardingFlow({ onComplete }) {
           <button type="button" onClick={() => setStep(1)} className="rounded-lg border border-slate-300 px-4 py-2 text-sm">
             Back
           </button>
-          <button type="button" onClick={() => setStep(3)} className="rounded-lg bg-green-500 px-4 py-2 text-sm font-medium text-white hover:bg-green-600">
+          <button
+            type="button"
+            onClick={() => setStep(3)}
+            disabled={challengeList.length === 0}
+            className="rounded-lg bg-green-500 px-4 py-2 text-sm font-medium text-white hover:bg-green-600 disabled:cursor-not-allowed disabled:opacity-40"
+          >
             Continue
           </button>
         </div>
@@ -126,6 +135,21 @@ export default function OnboardingFlow({ onComplete }) {
 
       <div className="mt-4">
         <Questionnaire questions={questions} answers={answers} onAnswer={handleAnswer} />
+      </div>
+
+      <div className="mt-6 rounded-xl border border-green-200 bg-green-50 p-4">
+        <h3 className="text-sm font-semibold text-green-800">Recommended tools from your answers</h3>
+        <p className="mt-1 text-xs text-green-700">These tools update as you answer the questionnaire.</p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {recommendationPreview.slice(0, 8).map((module) => (
+            <span
+              key={module.id}
+              className="rounded-full border border-green-300 bg-white px-3 py-1 text-xs font-medium text-green-800"
+            >
+              {module.title}
+            </span>
+          ))}
+        </div>
       </div>
 
       <p className="mt-4 text-xs text-slate-500">

@@ -27,6 +27,14 @@ export const FEATURES = /** @type {const} */ ({
   DEPRESSION:    "depression",
   APD:          "apd",
 
+  // ── Depression sub-features ───────────────
+  DEPRESSION_MVH:               "depression.mvh",
+  DEPRESSION_ANXIETY_DISSOLVER: "depression.anxiety-dissolver",
+  DEPRESSION_SOCIAL:            "depression.social-broadcaster",
+  DEPRESSION_PROOF:             "depression.evidence-folder",
+  DEPRESSION_REALITY:           "depression.cognitive-reframer",
+  DEPRESSION_VOID:              "depression.void-whisper",
+
   // ── OCD sub-features ────────────────────────
   OCD_ERP_TRACKER:      "ocd.erp-tracker",
   OCD_RITUAL_DELAYER:   "ocd.ritual-delayer",
@@ -99,6 +107,32 @@ export const FEATURE_REGISTRY = {
   [FEATURES.APD]: {
     label: "Audio Support",
     disorders: [DISORDERS.APD],
+  },
+
+  // ── Depression sub-features ───────────────
+  [FEATURES.DEPRESSION_MVH]: {
+    label: "MVH Protocol",
+    disorders: [DISORDERS.DEPRESSION],
+  },
+  [FEATURES.DEPRESSION_ANXIETY_DISSOLVER]: {
+    label: "Anxiety Dissolver",
+    disorders: [DISORDERS.DEPRESSION],
+  },
+  [FEATURES.DEPRESSION_SOCIAL]: {
+    label: "Social Broadcaster",
+    disorders: [DISORDERS.DEPRESSION],
+  },
+  [FEATURES.DEPRESSION_PROOF]: {
+    label: "Evidence Folder",
+    disorders: [DISORDERS.DEPRESSION],
+  },
+  [FEATURES.DEPRESSION_REALITY]: {
+    label: "Cognitive Reframer",
+    disorders: [DISORDERS.DEPRESSION],
+  },
+  [FEATURES.DEPRESSION_VOID]: {
+    label: "Void Whisper",
+    disorders: [DISORDERS.DEPRESSION],
   },
 
   // ── OCD sub-features ────────────────────────

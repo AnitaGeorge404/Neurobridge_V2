@@ -31,7 +31,7 @@ export default function Home() {
                 title={module.title}
                 description={module.description}
                 icon={module.icon}
-                launchRoute={`/tool/${encodeURIComponent(module.id)}`}
+                launchRoute={module.launchRoute}
               />
             ))}
           </div>
