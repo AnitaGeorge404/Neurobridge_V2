@@ -4,9 +4,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Sun, Moon, Coffee, Crosshair, Tag } from 'lucide-react';
 
 const PRESETS = [
-  { label: '15 min Sprint', minutes: 15, emoji: '⚡' },
-  { label: '25 min Classic', minutes: 25, emoji: '🍅' },
-  { label: '45 min Deep Dive', minutes: 45, emoji: '🌊' },
+  { label: '15 min Sprint', minutes: 15, emoji: 'Ã¢Å¡Â¡' },
+  { label: '25 min Classic', minutes: 25, emoji: 'Ã°Å¸Ââ€¦' },
+  { label: '45 min Deep Dive', minutes: 45, emoji: 'Ã°Å¸Å’Å ' },
 ];
 
 const MODES = [
@@ -22,11 +22,11 @@ const DEFAULT_MODE_MINUTES = {
 };
 
 const BREAK_TIPS = [
-  'Stretch your arms & legs 🧘',
-  'Drink some water 💧',
-  'Look at something 20ft away for 20s 👁️',
-  'Take 5 deep breaths 🌬️',
-  'Walk around for a minute 🚶',
+  'Stretch your arms & legs Ã°Å¸Â§Ëœ',
+  'Drink some water Ã°Å¸â€™Â§',
+  'Look at something 20ft away for 20s Ã°Å¸â€˜ÂÃ¯Â¸Â',
+  'Take 5 deep breaths Ã°Å¸Å’Â¬Ã¯Â¸Â',
+  'Walk around for a minute Ã°Å¸Å¡Â¶',
 ];
 
 // helpers
@@ -66,7 +66,7 @@ const CircularProgress = ({ progress, children }) => {
       <svg width={size} height={size} className="absolute -rotate-90 transform">
         <defs>
           <linearGradient id="focusRing" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="hsl(174 60% 40%)" />
+            <stop offset="0%" stopColor="hsl(142 72% 36%)" />
             <stop offset="100%" stopColor="#2563eb" />
           </linearGradient>
         </defs>
@@ -117,7 +117,7 @@ const ModeSelector = ({ mode, setMode, setFocusMinutes, setSecondsLeft }) => {
             onClick={() => handleModeChange(m.id)}
             className={`flex items-center gap-2 px-3 py-1.5 rounded-2xl text-xs font-semibold transition-all ${
               active
-                ? 'bg-[hsl(174_60%_40%)] text-white shadow-md'
+                ? 'bg-[hsl(142_72%_36%)] text-white shadow-md'
                 : 'text-slate-600 hover:bg-slate-100'
             }`}
           >
@@ -144,8 +144,8 @@ const PresetSelector = ({ selected, onSelect }) => (
             onClick={() => onSelect(p.minutes)}
             className={`px-3 py-2 rounded-2xl text-xs font-semibold border transition-all ${
               isSelected
-                ? 'border-[hsl(174_60%_40%)] bg-[hsl(174_60%_40%)]/10 text-[hsl(174_60%_35%)] shadow-sm'
-                : 'border-slate-200 bg-white hover:border-[hsl(174_60%_40%)]/60 hover:bg-[hsl(174_60%_40%)]/5'
+                ? 'border-[hsl(142_72%_36%)] bg-[hsl(142_72%_36%)]/10 text-[hsl(142_72%_32%)] shadow-sm'
+                : 'border-slate-200 bg-white hover:border-[hsl(142_72%_36%)]/60 hover:bg-[hsl(142_72%_36%)]/5'
             }`}
           >
             {p.emoji} {p.label}
@@ -159,7 +159,7 @@ const PresetSelector = ({ selected, onSelect }) => (
 const TaskInput = ({ intent, setIntent, tag, setTag, isActive }) => (
   <div className="w-full space-y-3">
     <div className="relative">
-      <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-[hsl(174_60%_40%)]/70">
+      <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-[hsl(142_72%_36%)]/70">
         <Crosshair size={18} />
       </div>
       <input
@@ -168,12 +168,12 @@ const TaskInput = ({ intent, setIntent, tag, setTag, isActive }) => (
         value={intent}
         onChange={(e) => setIntent(e.target.value)}
         disabled={isActive}
-        className="w-full h-11 rounded-2xl bg-white/80 border border-slate-200 text-slate-900 placeholder:text-slate-400 text-sm font-medium outline-none pl-11 pr-4 focus:border-[hsl(174_60%_40%)] focus:ring-2 focus:ring-[hsl(174_60%_40%)]/20 disabled:opacity-60"
+        className="w-full h-11 rounded-2xl bg-white/80 border border-slate-200 text-slate-900 placeholder:text-slate-400 text-sm font-medium outline-none pl-11 pr-4 focus:border-[hsl(142_72%_36%)] focus:ring-2 focus:ring-[hsl(142_72%_36%)]/20 disabled:opacity-60"
       />
     </div>
 
     <div className="relative">
-      <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-[hsl(174_60%_40%)]/70">
+      <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-[hsl(142_72%_36%)]/70">
         <Tag size={18} />
       </div>
       <input
@@ -182,7 +182,7 @@ const TaskInput = ({ intent, setIntent, tag, setTag, isActive }) => (
         value={tag}
         onChange={(e) => setTag(e.target.value)}
         disabled={isActive}
-        className="w-full h-11 rounded-2xl bg-white/80 border border-slate-200 text-slate-900 placeholder:text-slate-400 text-sm font-medium outline-none pl-11 pr-4 focus:border-[hsl(174_60%_40%)] focus:ring-2 focus:ring-[hsl(174_60%_40%)]/20 disabled:opacity-60"
+        className="w-full h-11 rounded-2xl bg-white/80 border border-slate-200 text-slate-900 placeholder:text-slate-400 text-sm font-medium outline-none pl-11 pr-4 focus:border-[hsl(142_72%_36%)] focus:ring-2 focus:ring-[hsl(142_72%_36%)]/20 disabled:opacity-60"
       />
     </div>
   </div>
@@ -203,7 +203,7 @@ const MicroGoals = ({ goals, setGoals }) => {
         <p className="text-[11px] uppercase tracking-[0.16em] text-slate-500 font-semibold">
           Micro-goals
         </p>
-        <span className="px-3 py-1 rounded-2xl text-[11px] font-semibold bg-[hsl(174_60%_40%)]/8 text-[hsl(174_60%_35%)] border border-[hsl(174_60%_40%)]/40">
+        <span className="px-3 py-1 rounded-2xl text-[11px] font-semibold bg-[hsl(142_72%_36%)]/8 text-[hsl(142_72%_32%)] border border-[hsl(142_72%_36%)]/40">
           {completedCount}/{goals.length}
         </span>
       </div>
@@ -214,8 +214,8 @@ const MicroGoals = ({ goals, setGoals }) => {
               onClick={() => toggleGoal(idx)}
               className={`w-5 h-5 rounded-xl border flex items-center justify-center transition-all ${
                 g.done
-                  ? 'bg-[hsl(174_60%_40%)] border-[hsl(174_60%_35%)]'
-                  : 'border-slate-300 bg-white hover:border-[hsl(174_60%_40%)]/60'
+                  ? 'bg-[hsl(142_72%_36%)] border-[hsl(142_72%_32%)]'
+                  : 'border-slate-300 bg-white hover:border-[hsl(142_72%_36%)]/60'
               }`}
             >
               {g.done && <span className="w-2.5 h-2.5 rounded-[6px] bg-white" />}
@@ -236,27 +236,27 @@ const StatsRow = ({ sessions, totalMinutes, streak, weeklyMinutes }) => (
       Today
     </p>
     <p className="text-sm text-slate-900">
-      {sessions} session{sessions === 1 ? '' : 's'} · {totalMinutes} min
+      {sessions} session{sessions === 1 ? '' : 's'} Ã‚Â· {totalMinutes} min
     </p>
     <p className="text-xs text-slate-600">
       Streak{' '}
-      <span className="font-semibold text-[hsl(174_60%_40%)]">{streak}</span> days · Week{' '}
+      <span className="font-semibold text-[hsl(142_72%_36%)]">{streak}</span> days Ã‚Â· Week{' '}
       <span className="font-semibold text-blue-500">{weeklyMinutes}</span> min
     </p>
   </div>
 );
 
 const CelebrationBanner = ({ onStartBreak, onSkip, intent, focusMinutes }) => (
-  <div className="bg-white/90 backdrop-blur-md border border-[hsl(174_60%_40%)]/30 rounded-3xl p-5 shadow-lg space-y-3">
+  <div className="bg-white/90 backdrop-blur-md border border-[hsl(142_72%_36%)]/30 rounded-3xl p-5 shadow-lg space-y-3">
     <p className="text-sm font-semibold text-slate-900">Block complete</p>
     <p className="text-xs text-slate-600">
       You protected {focusMinutes} minutes.
-      {intent ? ` “${intent}” moved forward.` : ''}
+      {intent ? ` Ã¢â‚¬Å“${intent}Ã¢â‚¬Â moved forward.` : ''}
     </p>
     <div className="flex flex-wrap gap-2">
       <button
         onClick={onStartBreak}
-        className="px-4 py-2 rounded-2xl text-xs font-semibold bg-[hsl(174_60%_40%)] text-white shadow-md hover:shadow-lg hover:-translate-y-[1px] transition-all"
+        className="px-4 py-2 rounded-2xl text-xs font-semibold bg-[hsl(142_72%_36%)] text-white shadow-md hover:shadow-lg hover:-translate-y-[1px] transition-all"
       >
         Take 5-min break
       </button>
@@ -428,13 +428,13 @@ const FocusSessions = () => {
   const isActive = phase === 'running' || phase === 'paused';
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-[hsl(174_60%_40%)]/5 to-blue-50 p-6 md:p-10">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-[hsl(142_72%_36%)]/5 to-blue-50 p-6 md:p-10">
       <div className="max-w-4xl mx-auto space-y-10">
         <header className="text-center space-y-3">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-[hsl(174_60%_40%)] to-[hsl(174_60%_45%)] shadow-xl mb-2">
-            <span className="text-2xl">🌳</span>
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-[hsl(142_72%_36%)] to-[hsl(142_66%_42%)] shadow-xl mb-2">
+            <span className="text-2xl">Ã°Å¸Å’Â³</span>
           </div>
-          <h1 className="text-3xl md:text-4xl font-black bg-gradient-to-r from-[hsl(174_60%_40%)] via-[hsl(174_60%_45%)] to-blue-600 bg-clip-text text-transparent">
+          <h1 className="text-3xl md:text-4xl font-black bg-gradient-to-r from-[hsl(142_72%_36%)] via-[hsl(142_66%_42%)] to-blue-600 bg-clip-text text-transparent">
             Focus Sessions
           </h1>
           <p className="text-sm md:text-base text-gray-600 max-w-xl mx-auto">
@@ -495,7 +495,7 @@ const FocusSessions = () => {
                   {phase === 'setup' ? (
                     <button
                       onClick={startSession}
-                      className="flex-1 py-3 rounded-2xl text-sm font-semibold bg-gradient-to-r from-[hsl(174_60%_40%)] to-[hsl(174_60%_45%)] text-white shadow-md hover:shadow-lg hover:-translate-y-[1px] transition-all"
+                      className="flex-1 py-3 rounded-2xl text-sm font-semibold bg-gradient-to-r from-[hsl(142_72%_36%)] to-[hsl(142_66%_42%)] text-white shadow-md hover:shadow-lg hover:-translate-y-[1px] transition-all"
                     >
                       Start {mode === 'focus' ? 'focus block' : 'break'}
                     </button>
@@ -503,7 +503,7 @@ const FocusSessions = () => {
                     <>
                       <button
                         onClick={togglePause}
-                        className="flex-1 py-3 rounded-2xl text-sm font-semibold bg-[hsl(174_60%_40%)] text-white shadow-md hover:shadow-lg hover:-translate-y-[1px] transition-all"
+                        className="flex-1 py-3 rounded-2xl text-sm font-semibold bg-[hsl(142_72%_36%)] text-white shadow-md hover:shadow-lg hover:-translate-y-[1px] transition-all"
                       >
                         {phase === 'running' ? 'Pause' : 'Resume'}
                       </button>

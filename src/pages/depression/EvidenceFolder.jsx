@@ -82,7 +82,7 @@ export default function EvidenceFolder() {
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <div className="inline-flex items-center gap-3 bg-gradient-to-r from-[hsl(174_60%_40%)] to-[hsl(174_60%_45%)] text-white px-7 py-3 rounded-3xl font-bold shadow-2xl">
+        <div className="inline-flex items-center gap-3 bg-gradient-to-r from-[hsl(142_72%_36%)] to-[hsl(142_66%_42%)] text-white px-7 py-3 rounded-3xl font-bold shadow-2xl">
           <Brain className="w-5 h-5" />
           Evidence Folder
         </div>
@@ -90,7 +90,7 @@ export default function EvidenceFolder() {
           Proof your brain is lying
         </h1>
         <p className="text-gray-600 max-w-xl mx-auto text-sm md:text-base">
-          When depression says “you never do enough”, open this folder and show it hundreds of receipts.
+          When depression says â€œyou never do enoughâ€, open this folder and show it hundreds of receipts.
         </p>
       </motion.div>
 
@@ -102,7 +102,7 @@ export default function EvidenceFolder() {
       >
         <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-5 shadow-lg border border-white/60">
           <div className="text-xs font-semibold text-gray-500 mb-1">Total evidence</div>
-          <div className="text-3xl font-black text-[hsl(174_60%_40%)]">{total}</div>
+          <div className="text-3xl font-black text-[hsl(142_72%_36%)]">{total}</div>
         </div>
         <div className="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl p-5 shadow-lg border border-emerald-100">
           <div className="text-xs font-semibold text-emerald-700 mb-1">Strongest area</div>
@@ -111,7 +111,7 @@ export default function EvidenceFolder() {
           </div>
         </div>
         <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-5 shadow-lg border border-white/60">
-          <div className="text-xs font-semibold text-gray-500 mb-1">Starred “go‑to” proofs</div>
+          <div className="text-xs font-semibold text-gray-500 mb-1">Starred â€œgoâ€‘toâ€ proofs</div>
           <div className="text-3xl font-black text-yellow-500">
             {items.filter(i => i.starred).length}
           </div>
@@ -120,7 +120,7 @@ export default function EvidenceFolder() {
 
       {/* Input + category */}
       <motion.div
-        className="bg-white/90 backdrop-blur-sm rounded-3xl p-6 shadow-2xl border border-[hsl(174_60%_40%)]/15 space-y-4"
+        className="bg-white/90 backdrop-blur-sm rounded-3xl p-6 shadow-2xl border border-[hsl(142_72%_36%)]/15 space-y-4"
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
       >
@@ -131,11 +131,11 @@ export default function EvidenceFolder() {
         </div>
 
         <textarea
-          className="w-full fieldTextarea resize-none rounded-2xl border-2 border-gray-200 bg-white/90 p-4 text-sm md:text-base focus:border-[hsl(174_60%_40%)] focus:ring-4 focus:ring-[hsl(174_60%_40%)]/15 transition-all"
+          className="w-full fieldTextarea resize-none rounded-2xl border-2 border-gray-200 bg-white/90 p-4 text-sm md:text-base focus:border-[hsl(142_72%_36%)] focus:ring-4 focus:ring-[hsl(142_72%_36%)]/15 transition-all"
           rows={3}
           value={input}
           onChange={e => setInput(e.target.value)}
-          placeholder="I still showed up to class even though I felt awful…"
+          placeholder="I still showed up to class even though I felt awfulâ€¦"
         />
 
         <div className="grid md:grid-cols-[2fr,1fr] gap-3 items-center">
@@ -147,8 +147,8 @@ export default function EvidenceFolder() {
                 onClick={() => setSelectedCategory(key)}
                 className={`flex items-center gap-2 px-3 py-2 rounded-2xl border text-xs font-semibold transition-all ${
                   selectedCategory === key
-                    ? "bg-gradient-to-r from-[hsl(174_60%_40%)] to-[hsl(174_60%_45%)] text-white border-[hsl(174_60%_40%)] shadow-lg"
-                    : "bg-white/80 text-gray-700 border-gray-200 hover:border-[hsl(174_60%_40%)]/40"
+                    ? "bg-gradient-to-r from-[hsl(142_72%_36%)] to-[hsl(142_66%_42%)] text-white border-[hsl(142_72%_36%)] shadow-lg"
+                    : "bg-white/80 text-gray-700 border-gray-200 hover:border-[hsl(142_72%_36%)]/40"
                 }`}
               >
                 {cfg.icon}
@@ -161,7 +161,7 @@ export default function EvidenceFolder() {
             type="button"
             onClick={add}
             disabled={!input.trim()}
-            className="primaryButton w-full bg-gradient-to-r from-[hsl(174_60%_40%)] to-[hsl(174_60%_45%)] text-white rounded-2xl py-3 text-sm md:text-base font-bold shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+            className="primaryButton w-full bg-gradient-to-r from-[hsl(142_72%_36%)] to-[hsl(142_66%_42%)] text-white rounded-2xl py-3 text-sm md:text-base font-bold shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
             whileHover={input.trim() ? { y: -2, scale: 1.01 } : {}}
             whileTap={input.trim() ? { scale: 0.97 } : {}}
           >
@@ -170,7 +170,7 @@ export default function EvidenceFolder() {
         </div>
 
         <p className="text-[11px] text-gray-500">
-          Tip: Aim for 1–3 logs per day, no matter how small. Future‑you will thank you.
+          Tip: Aim for 1â€“3 logs per day, no matter how small. Futureâ€‘you will thank you.
         </p>
       </motion.div>
 
@@ -186,7 +186,7 @@ export default function EvidenceFolder() {
             onClick={() => setFilterCat("all")}
             className={`px-3 py-1 rounded-2xl text-xs font-semibold border ${
               filterCat === "all"
-                ? "bg-[hsl(174_60%_40%)] text-white border-[hsl(174_60%_40%)]"
+                ? "bg-[hsl(142_72%_36%)] text-white border-[hsl(142_72%_36%)]"
                 : "bg-white/80 text-gray-700 border-gray-200"
             }`}
           >
@@ -199,7 +199,7 @@ export default function EvidenceFolder() {
               onClick={() => setFilterCat(key)}
               className={`px-3 py-1 rounded-2xl text-xs font-semibold border ${
                 filterCat === key
-                  ? "bg-[hsl(174_60%_40%)] text-white border-[hsl(174_60%_40%)]"
+                  ? "bg-[hsl(142_72%_36%)] text-white border-[hsl(142_72%_36%)]"
                   : "bg-white/80 text-gray-700 border-gray-200"
               }`}
             >
@@ -209,8 +209,8 @@ export default function EvidenceFolder() {
         </div>
 
         <input
-          className="fieldInput w-full md:w-64 bg-white/90 border-2 border-gray-200 rounded-2xl px-3 py-2 text-xs md:text-sm focus:border-[hsl(174_60%_40%)] focus:ring-2 focus:ring-[hsl(174_60%_40%)]/20"
-          placeholder="Search your receipts…"
+          className="fieldInput w-full md:w-64 bg-white/90 border-2 border-gray-200 rounded-2xl px-3 py-2 text-xs md:text-sm focus:border-[hsl(142_72%_36%)] focus:ring-2 focus:ring-[hsl(142_72%_36%)]/20"
+          placeholder="Search your receiptsâ€¦"
           value={search}
           onChange={e => setSearch(e.target.value)}
         />
@@ -221,12 +221,12 @@ export default function EvidenceFolder() {
         {filtered.length === 0 ? (
           <motion.div
             key="empty"
-            className="text-center py-16 bg-white/70 rounded-3xl border border-dashed border-[hsl(174_60%_40%)]/30"
+            className="text-center py-16 bg-white/70 rounded-3xl border border-dashed border-[hsl(142_72%_36%)]/30"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <div className="w-20 h-20 mx-auto mb-4 rounded-3xl bg-gradient-to-br from-[hsl(174_60%_40%)]/10 to-[hsl(174_60%_45%)]/10 flex items-center justify-center">
-              <Shield className="w-10 h-10 text-[hsl(174_60%_40%)]" />
+            <div className="w-20 h-20 mx-auto mb-4 rounded-3xl bg-gradient-to-br from-[hsl(142_72%_36%)]/10 to-[hsl(142_66%_42%)]/10 flex items-center justify-center">
+              <Shield className="w-10 h-10 text-[hsl(142_72%_36%)]" />
             </div>
             <p className="text-sm text-gray-600 max-w-md mx-auto">
               This folder will become your case against depression. Start by logging one tiny proof right now.
@@ -244,14 +244,14 @@ export default function EvidenceFolder() {
               return (
                 <motion.div
                   key={i.id}
-                  className="group bg-white/95 backdrop-blur-sm rounded-3xl p-4 md:p-5 shadow-lg border border-white/70 hover:border-[hsl(174_60%_40%)]/35 hover:-translate-y-0.5 transition-all"
+                  className="group bg-white/95 backdrop-blur-sm rounded-3xl p-4 md:p-5 shadow-lg border border-white/70 hover:border-[hsl(142_72%_36%)]/35 hover:-translate-y-0.5 transition-all"
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -8 }}
                 >
                   <div className="flex items-start gap-3">
                     <div className="mt-1 flex-shrink-0">
-                      <div className="w-8 h-8 rounded-2xl bg-gradient-to-br from-[hsl(174_60%_40%)]/15 to-[hsl(174_60%_45%)]/10 flex items-center justify-center text-[hsl(174_60%_40%)]">
+                      <div className="w-8 h-8 rounded-2xl bg-gradient-to-br from-[hsl(142_72%_36%)]/15 to-[hsl(142_66%_42%)]/10 flex items-center justify-center text-[hsl(142_72%_36%)]">
                         {cfg?.icon}
                       </div>
                     </div>
@@ -261,7 +261,7 @@ export default function EvidenceFolder() {
                           {cfg?.label}
                         </span>
                         <span className="text-[10px] text-gray-400">
-                          {new Date(i.createdAt).toLocaleDateString()} •{" "}
+                          {new Date(i.createdAt).toLocaleDateString()} â€¢{" "}
                           {new Date(i.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                         </span>
                       </div>

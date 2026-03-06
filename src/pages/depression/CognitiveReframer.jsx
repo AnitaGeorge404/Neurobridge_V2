@@ -156,8 +156,8 @@ export default function CognitiveReframer() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <div className="inline-flex items-center gap-3 bg-gradient-to-r from-[hsl(174_60%_40%)] to-[hsl(174_60%_45%)] text-white px-8 py-4 rounded-3xl font-bold text-xl shadow-2xl mb-6">
-          🧠 Reality Filter
+        <div className="inline-flex items-center gap-3 bg-gradient-to-r from-[hsl(142_72%_36%)] to-[hsl(142_66%_42%)] text-white px-8 py-4 rounded-3xl font-bold text-xl shadow-2xl mb-6">
+          ðŸ§  Reality Filter
         </div>
         <h1 className="text-4xl font-black bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent tracking-tight">
           Cognitive Distortion Detector
@@ -171,7 +171,7 @@ export default function CognitiveReframer() {
       <motion.div className="relative" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
         <textarea
           ref={textareaRef}
-          className="w-full fieldTextarea resize-none p-8 rounded-3xl bg-white/80 backdrop-blur-sm border-2 border-[hsl(174_60%_40%)]/20 focus:border-[hsl(174_60%_40%)]/40 focus:ring-4 focus:ring-[hsl(174_60%_40%)]/10 transition-all duration-300 text-lg placeholder-gray-500 min-h-[120px] shadow-xl hover:shadow-2xl"
+          className="w-full fieldTextarea resize-none p-8 rounded-3xl bg-white/80 backdrop-blur-sm border-2 border-[hsl(142_72%_36%)]/20 focus:border-[hsl(142_72%_36%)]/40 focus:ring-4 focus:ring-[hsl(142_72%_36%)]/10 transition-all duration-300 text-lg placeholder-gray-500 min-h-[120px] shadow-xl hover:shadow-2xl"
           value={thought}
           onChange={(e) => {
             setThought(e.target.value);
@@ -182,11 +182,11 @@ export default function CognitiveReframer() {
         />
         <motion.button
           onClick={analyzeThought}
-          className="absolute bottom-4 right-4 bg-gradient-to-r from-[hsl(174_60%_40%)] to-[hsl(174_60%_45%)] text-white px-8 py-3 rounded-2xl font-bold shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 border border-[hsl(174_60%_40%)]/50"
+          className="absolute bottom-4 right-4 bg-gradient-to-r from-[hsl(142_72%_36%)] to-[hsl(142_66%_42%)] text-white px-8 py-3 rounded-2xl font-bold shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 border border-[hsl(142_72%_36%)]/50"
           whileHover={{ y: -2 }}
           whileTap={{ scale: 0.98 }}
         >
-          🔍 Analyze Thought
+          ðŸ” Analyze Thought
         </motion.button>
       </motion.div>
 
@@ -209,7 +209,7 @@ export default function CognitiveReframer() {
             >
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-12 h-12 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-2xl flex items-center justify-center shadow-xl">
-                  <span className="text-2xl">⚠️</span>
+                  <span className="text-2xl">âš ï¸</span>
                 </div>
                 <div>
                   <h3 className="text-2xl font-black text-gray-900">{analysis.original}</h3>
@@ -224,10 +224,10 @@ export default function CognitiveReframer() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-[hsl(174_60%_40%)]/20"
+              className="bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-[hsl(142_72%_36%)]/20"
             >
               <h4 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-3">
-                <span className="w-10 h-10 bg-[hsl(174_60%_40%)] text-white rounded-xl flex items-center justify-center font-bold shadow-lg">?</span>
+                <span className="w-10 h-10 bg-[hsl(142_72%_36%)] text-white rounded-xl flex items-center justify-center font-bold shadow-lg">?</span>
                 Challenge with evidence:
               </h4>
               <div className="space-y-4">
@@ -252,7 +252,7 @@ export default function CognitiveReframer() {
               className="bg-gradient-to-r from-emerald-50 to-teal-50 border-2 border-emerald-200 rounded-3xl p-8 backdrop-blur-sm shadow-2xl text-center"
             >
               <div className="w-16 h-16 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-2xl">
-                <span className="text-3xl">✅</span>
+                <span className="text-3xl">âœ…</span>
               </div>
               <h3 className="text-2xl font-black text-emerald-800 mb-4">Healthy Reframe</h3>
               <blockquote className="text-xl font-semibold text-gray-800 italic bg-white/60 px-6 py-4 rounded-2xl shadow-inner">
@@ -268,17 +268,17 @@ export default function CognitiveReframer() {
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.98 }}
               >
-                ✏️ New Thought
+                âœï¸ New Thought
               </motion.button>
               <motion.button
                 onClick={() => {
-                  navigator.clipboard.writeText(`"${thought}" → ${analysis.original} → "${analysis.reframe}"`);
+                  navigator.clipboard.writeText(`"${thought}" â†’ ${analysis.original} â†’ "${analysis.reframe}"`);
                 }}
-                className="px-8 py-4 bg-white/90 hover:bg-white text-gray-800 backdrop-blur-sm rounded-2xl font-bold shadow-xl border border-gray-200 hover:border-[hsl(174_60%_40%)]/30 hover:shadow-2xl hover:scale-105 transition-all duration-300"
+                className="px-8 py-4 bg-white/90 hover:bg-white text-gray-800 backdrop-blur-sm rounded-2xl font-bold shadow-xl border border-gray-200 hover:border-[hsl(142_72%_36%)]/30 hover:shadow-2xl hover:scale-105 transition-all duration-300"
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.98 }}
               >
-                📋 Copy Reframe
+                ðŸ“‹ Copy Reframe
               </motion.button>
             </div>
           </motion.div>
@@ -291,10 +291,10 @@ export default function CognitiveReframer() {
           animate={{ opacity: 1 }}
           className="text-center py-12 text-gray-500"
         >
-          <div className="w-24 h-24 bg-gradient-to-r from-[hsl(174_60%_40%)]/10 to-[hsl(174_60%_45%)]/10 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl">
-            <span className="text-3xl">🔍</span>
+          <div className="w-24 h-24 bg-gradient-to-r from-[hsl(142_72%_36%)]/10 to-[hsl(142_66%_42%)]/10 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl">
+            <span className="text-3xl">ðŸ”</span>
           </div>
-          <p className="text-lg font-medium">Write any anxious or negative thought above → Get instant CBT analysis & healthy reframes</p>
+          <p className="text-lg font-medium">Write any anxious or negative thought above â†’ Get instant CBT analysis & healthy reframes</p>
         </motion.div>
       )}
     </div>

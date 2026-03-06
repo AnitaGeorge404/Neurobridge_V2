@@ -11,9 +11,6 @@ import { loadWardTasks, saveWardTasks } from "@/lib/wardTaskStore";
 import { loadWardSyncData, pushWardActivity, pushWardAlert } from "@/lib/careSyncStore";
 import AdaptiveOutcomePanel from "@/components/adaptive/AdaptiveOutcomePanel";
 
-// ─────────────────────────────────────────────
-//  Palette helpers (lavender / slate)
-// ─────────────────────────────────────────────
 const PROFILE_COLORS = {
   ocd:         { bg: "bg-violet-100 dark:bg-violet-900/30", text: "text-violet-700 dark:text-violet-300" },
   dyslexia:    { bg: "bg-emerald-100 dark:bg-emerald-900/30", text: "text-emerald-700 dark:text-emerald-300" },

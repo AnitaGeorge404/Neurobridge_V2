@@ -10,25 +10,25 @@ export default function SocialBroadcaster() {
 
   const codes = {
     Red: {
-      label: "Red • No social energy",
+      label: "Red â€¢ No social energy",
       message:
-        "Status: RED\n\nI’m in low-power mode and don’t have energy to talk or respond right now. It’s not about you. I’ll reply when I’m able.",
-      explain: "Severe low energy. You’re allowed to fully power down without explanations.",
+        "Status: RED\n\nIâ€™m in low-power mode and donâ€™t have energy to talk or respond right now. Itâ€™s not about you. Iâ€™ll reply when Iâ€™m able.",
+      explain: "Severe low energy. Youâ€™re allowed to fully power down without explanations.",
       suggestion: "Set an auto-response, silence notifications, choose one person you might update later."
     },
     Yellow: {
-      label: "Yellow • Limited energy",
+      label: "Yellow â€¢ Limited energy",
       message:
         "Status: YELLOW\n\nMy replies might be slow and short today. I still care, my brain is just buffering. No need to worry or fix anything.",
       explain: "Medium energy. You can talk a little, but need people to lower expectations.",
       suggestion: "Reply with short check-ins, avoid big emotional conversations, schedule longer chats for another day."
     },
     Green: {
-      label: "Green • Available",
+      label: "Green â€¢ Available",
       message:
-        "Status: GREEN\n\nI’m okay to chat and respond today. Feel free to message or call. If I get tired, I’ll let you know.",
+        "Status: GREEN\n\nIâ€™m okay to chat and respond today. Feel free to message or call. If I get tired, Iâ€™ll let you know.",
       explain: "Relatively steady energy. You can engage more, with permission to still set limits.",
-      suggestion: "Use this time for light connection, planning, or asking for support you’ve been postponing."
+      suggestion: "Use this time for light connection, planning, or asking for support youâ€™ve been postponing."
     }
   };
 
@@ -42,7 +42,7 @@ export default function SocialBroadcaster() {
       chip: "bg-amber-100 text-amber-800 border border-amber-200"
     },
     Green: {
-      bg: "from-[hsl(174_60%_40%)]/90 to-[hsl(174_60%_45%)]/90",
+      bg: "from-[hsl(142_72%_36%)]/90 to-[hsl(142_66%_42%)]/90",
       chip: "bg-emerald-100 text-emerald-800 border border-emerald-200"
     }
   };
@@ -55,26 +55,26 @@ export default function SocialBroadcaster() {
 
   const shortBubble = {
     Red: "Low power: resting. Responses may be very slow.",
-    Yellow: "Slow replies, brain buffering. Please don’t take it personally.",
+    Yellow: "Slow replies, brain buffering. Please donâ€™t take it personally.",
     Green: "Available to chat, with breaks if I get tired."
   };
 
   return (
-    <div className="max-w-xl mx-auto p-6 md:p-8 space-y-6 bg-white/80 rounded-3xl shadow-2xl border border-[hsl(174_60%_40%)]/15 backdrop-blur-sm">
+    <div className="max-w-xl mx-auto p-6 md:p-8 space-y-6 bg-white/80 rounded-3xl shadow-2xl border border-[hsl(142_72%_36%)]/15 backdrop-blur-sm">
       {/* Header */}
       <motion.div
         className="space-y-2 text-center"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[hsl(174_60%_40%)] to-[hsl(174_60%_45%)] text-white px-4 py-2 rounded-2xl text-xs font-semibold shadow-lg">
+        <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[hsl(142_72%_36%)] to-[hsl(142_66%_42%)] text-white px-4 py-2 rounded-2xl text-xs font-semibold shadow-lg">
           Social Broadcaster
         </div>
         <h1 className="text-2xl md:text-3xl font-black bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
           Share your energy status
         </h1>
         <p className="text-xs md:text-sm text-gray-600 max-w-md mx-auto">
-          Pick a mode and copy a guilt‑free message you can paste to friends, family, or work chats.
+          Pick a mode and copy a guiltâ€‘free message you can paste to friends, family, or work chats.
         </p>
       </motion.div>
 
@@ -90,7 +90,7 @@ export default function SocialBroadcaster() {
             }`}
             onClick={() => setStatus(m)}
           >
-            <span>{m === "Red" ? "🔴" : m === "Yellow" ? "🟡" : "🟢"}</span>
+            <span>{m === "Red" ? "ðŸ”´" : m === "Yellow" ? "ðŸŸ¡" : "ðŸŸ¢"}</span>
             <span>{m}</span>
           </button>
         ))}
@@ -103,10 +103,10 @@ export default function SocialBroadcaster() {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
-          className="logCard rounded-3xl bg-white/95 border border-[hsl(174_60%_40%)]/10 shadow-xl p-5 space-y-3"
+          className="logCard rounded-3xl bg-white/95 border border-[hsl(142_72%_36%)]/10 shadow-xl p-5 space-y-3"
         >
           <div className="flex items-center gap-2 text-sm font-semibold">
-            <span>{status === "Red" ? "🔴" : status === "Yellow" ? "🟡" : "🟢"}</span>
+            <span>{status === "Red" ? "ðŸ”´" : status === "Yellow" ? "ðŸŸ¡" : "ðŸŸ¢"}</span>
             <span>{codes[status].label}</span>
           </div>
 
@@ -119,8 +119,8 @@ export default function SocialBroadcaster() {
             <span>{codes[status].explain}</span>
           </div>
 
-          <div className="text-[11px] text-gray-600 bg-[hsl(174_60%_40%)]/5 border border-[hsl(174_60%_40%)]/20 rounded-2xl p-3">
-            <span className="font-semibold text-[hsl(174_60%_40%)] mr-1">Suggestion:</span>
+          <div className="text-[11px] text-gray-600 bg-[hsl(142_72%_36%)]/5 border border-[hsl(142_72%_36%)]/20 rounded-2xl p-3">
+            <span className="font-semibold text-[hsl(142_72%_36%)] mr-1">Suggestion:</span>
             {codes[status].suggestion}
           </div>
         </motion.div>
@@ -133,7 +133,7 @@ export default function SocialBroadcaster() {
 
       {/* Copy button */}
       <motion.button
-        className="secondaryButton w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[hsl(174_60%_40%)]/5 to-[hsl(174_60%_45%)]/5 border border-[hsl(174_60%_40%)]/40 rounded-2xl py-3 text-xs md:text-sm font-semibold text-[hsl(174_60%_40%)] hover:bg-white hover:shadow-xl"
+        className="secondaryButton w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[hsl(142_72%_36%)]/5 to-[hsl(142_66%_42%)]/5 border border-[hsl(142_72%_36%)]/40 rounded-2xl py-3 text-xs md:text-sm font-semibold text-[hsl(142_72%_36%)] hover:bg-white hover:shadow-xl"
         onClick={handleCopy}
         whileHover={{ y: -2, scale: 1.01 }}
         whileTap={{ scale: 0.97 }}
@@ -143,7 +143,7 @@ export default function SocialBroadcaster() {
       </motion.button>
 
       <p className="text-[11px] text-gray-500 text-center">
-        You are allowed to send these without over‑explaining or apologizing.
+        You are allowed to send these without overâ€‘explaining or apologizing.
       </p>
     </div>
   );
