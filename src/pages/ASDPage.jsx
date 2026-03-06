@@ -1,12 +1,12 @@
-import { Brain, MessageCircle, Ear, Wind, Smile } from "lucide-react";
+import { Brain, BookOpen, Ear, ShieldCheck, Smile, CalendarCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const tools = [
-  { to: "/asd",           icon: Brain,         title: "Grounding Toolkit",     desc: "Sensory grounding exercises for overload moments." },
-  { to: "/apd",           icon: MessageCircle, title: "Social Rehearsal",       desc: "Practice communication scripts and social cues." },
-  { to: "/anxiety",       icon: Wind,          title: "Breathing Guide",        desc: "Calm your body and nervous system quickly." },
-  { to: "/adhd/emotion-coach", icon: Smile,    title: "Emotion Coach",          desc: "Manage emotional spikes with guided micro-steps." },
-  { to: "/depression",    icon: Ear,           title: "Mood Check-in",          desc: "Track emotional patterns throughout the day." },
+  { to: "/asd/routine",  icon: CalendarCheck, title: "Routine Visualizer",  desc: "Build a visual daily routine with step-by-step guidance." },
+  { to: "/asd/sensory",  icon: Ear,           title: "Sensory Regulation",  desc: "Manage sensory overload with personalised visual tools." },
+  { to: "/asd/stories",  icon: BookOpen,      title: "Social Stories",      desc: "Practice real-world social scenarios at your own pace." },
+  { to: "/asd/meltdown", icon: ShieldCheck,   title: "Meltdown Prevention", desc: "Identify triggers and use calming strategies." },
+  { to: "/asd/emotion",  icon: Smile,         title: "Emotion Decoder",     desc: "Recognise and express emotions with guided support." },
 ];
 
 export default function ASDPage() {
