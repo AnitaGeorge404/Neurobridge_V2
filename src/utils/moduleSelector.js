@@ -1,9 +1,13 @@
 import { CHALLENGE_MODULE_MAP, getModulesForChallenges } from "@/data/modulesRegistry";
 import { getQuestionsForChallenges } from "@/utils/questionEngine";
 
-const MATCH_THRESHOLD = 2;
-const MIN_MODULES = 6;
-const BOOST_WEIGHT = 2;
+// Score >= this → module is "unlocked" by the questionnaire
+const MATCH_THRESHOLD = 1;
+// Always show at least this many (even if nothing scored well)
+const MIN_MODULES = 2;
+// Never show more than this on the home screen — prevents all-enabled feeling
+const MAX_MODULES = 8;
+const BOOST_WEIGHT = 3;
 
 export function buildTagProfile(answersByQuestionId = {}, questions = []) {
   const tags = {};
@@ -77,9 +81,16 @@ export function selectModulesForUser({ selectedChallenges = [], answersByQuestio
   const candidateModules = getModulesForChallenges(selectedChallenges);
   const scored = scoreModules(userTags, moduleBoosts, candidateModules);
 
+  // Modules that directly scored from questionnaire answers
   const selected = scored.filter((module) => module.score >= MATCH_THRESHOLD);
+
+  // Guarantee a minimum so the home screen is never empty
   const withMinimum = selected.length >= MIN_MODULES ? selected : scored.slice(0, MIN_MODULES);
-  const withCoverage = ensureChallengeCoverage([...withMinimum], selectedChallenges, scored);
+
+  // Enforce max cap — questionnaire answers now meaningfully filter the list
+  const capped = withMinimum.slice(0, MAX_MODULES);
+
+  const withCoverage = ensureChallengeCoverage([...capped], selectedChallenges, scored);
 
   const uniqueFinal = [];
   const seenIds = new Set();

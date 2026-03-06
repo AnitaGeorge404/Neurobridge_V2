@@ -3,6 +3,7 @@ import { CHALLENGE_CATEGORIES } from "@/data/modulesRegistry";
 import { getQuestionsForChallenges } from "@/utils/questionEngine";
 import { selectModulesForUser } from "@/utils/moduleSelector";
 import Questionnaire from "@/components/Questionnaire";
+import { Brain } from "lucide-react";
 
 export default function OnboardingFlow({ onComplete }) {
   const [step, setStep] = useState(1);
@@ -12,7 +13,8 @@ export default function OnboardingFlow({ onComplete }) {
 
   const challengeList = [...selectedChallenges];
   const questions = useMemo(() => getQuestionsForChallenges(challengeList), [challengeList]);
-  const unanswered = questions.filter((question) => !answers[question.id]).length;
+  const unanswered = questions.filter((q) => !answers[q.id]).length;
+
   const recommendationPreview = useMemo(
     () => selectModulesForUser({ selectedChallenges: challengeList, answersByQuestionId: answers }).selectedModules,
     [challengeList, answers],
@@ -35,12 +37,7 @@ export default function OnboardingFlow({ onComplete }) {
     if (unanswered > 0 || isProcessing) return;
     setIsProcessing(true);
     setStep(4);
-
-    const selection = selectModulesForUser({
-      selectedChallenges: challengeList,
-      answersByQuestionId: answers,
-    });
-
+    const selection = selectModulesForUser({ selectedChallenges: challengeList, answersByQuestionId: answers });
     await onComplete({
       selectedChallenges: challengeList,
       answersByQuestionId: answers,
@@ -48,127 +45,153 @@ export default function OnboardingFlow({ onComplete }) {
       enabledModules: selection.enabledModules,
       selectedModules: selection.selectedModules,
     });
-
     setStep(5);
     setIsProcessing(false);
   }
 
+  /* ── STEP 1: Welcome ── */
   if (step === 1) {
     return (
-      <div className="mx-auto max-w-3xl rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h1 className="text-2xl font-bold text-slate-900">Welcome</h1>
-        <p className="mt-2 text-sm text-slate-600">
-          We’ll personalize your support tools in a few quick steps.
-        </p>
-        <button
-          type="button"
-          onClick={() => setStep(2)}
-          className="mt-6 rounded-lg bg-green-500 px-4 py-2 text-sm font-medium text-white hover:bg-green-600"
-        >
-          Start
-        </button>
+      <div className="mx-auto max-w-2xl">
+        <div className="rounded-3xl border border-green-100 bg-white p-10 shadow-sm text-center">
+          <div className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-gradient-to-br from-green-500 to-teal-500 flex items-center justify-center shadow-lg">
+            <Brain className="w-8 h-8 text-white" />
+          </div>
+          <h1 className="text-3xl font-black text-slate-900 mb-2">Welcome to NeuroBridge</h1>
+          <p className="text-slate-500 mb-8 text-sm max-w-md mx-auto">
+            We'll ask a few quick questions to build a personalised toolkit of support tools — just for you. No labels, no judgement.
+          </p>
+          <button
+            type="button"
+            onClick={() => setStep(2)}
+            className="rounded-xl bg-gradient-to-r from-green-500 to-teal-500 px-8 py-3 text-sm font-semibold text-white shadow-md hover:shadow-lg hover:from-green-600 hover:to-teal-600 transition-all"
+          >
+            Get Started →
+          </button>
+        </div>
       </div>
     );
   }
 
+  /* ── STEP 2: Select challenges ── */
   if (step === 2) {
     return (
-      <div className="mx-auto max-w-3xl rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="text-xl font-semibold text-slate-900">Select areas where you feel you need support</h2>
-        <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
-          {CHALLENGE_CATEGORIES.map((challenge) => {
-            const active = selectedChallenges.has(challenge.id);
-            return (
-              <button
-                key={challenge.id}
-                type="button"
-                onClick={() => toggleChallenge(challenge.id)}
-                className={`rounded-xl border px-3 py-3 text-sm transition ${
-                  active
-                    ? "border-green-500 bg-green-50 text-green-700"
-                    : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
-                }`}
-              >
-                {challenge.label}
-              </button>
-            );
-          })}
+      <div className="mx-auto max-w-2xl">
+        <div className="rounded-3xl border border-green-100 bg-white p-8 shadow-sm">
+          <div className="mb-1 text-xs font-semibold text-green-600 uppercase tracking-wider">Step 1 of 2</div>
+          <h2 className="text-xl font-black text-slate-900 mb-1">Where do you want support?</h2>
+          <p className="text-sm text-slate-500 mb-6">Select one or more areas. You can always update this later.</p>
+
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {CHALLENGE_CATEGORIES.map((challenge) => {
+              const active = selectedChallenges.has(challenge.id);
+              return (
+                <button
+                  key={challenge.id}
+                  type="button"
+                  onClick={() => toggleChallenge(challenge.id)}
+                  className={`rounded-xl border px-3 py-3 text-sm font-medium transition-all ${
+                    active
+                      ? "border-green-400 bg-gradient-to-br from-green-50 to-teal-50 text-green-700 shadow-sm"
+                      : "border-slate-200 bg-white text-slate-600 hover:border-green-200 hover:bg-green-50/50"
+                  }`}
+                >
+                  {challenge.label}
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="mt-8 flex gap-3">
+            <button type="button" onClick={() => setStep(1)} className="rounded-xl border border-slate-200 px-5 py-2.5 text-sm text-slate-600 hover:bg-slate-50 transition-colors">
+              Back
+            </button>
+            <button
+              type="button"
+              onClick={() => setStep(3)}
+              disabled={challengeList.length === 0}
+              className="rounded-xl bg-gradient-to-r from-green-500 to-teal-500 px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:from-green-600 hover:to-teal-600 transition-all disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              Continue →
+            </button>
+          </div>
         </div>
-        <div className="mt-6 flex gap-2">
-          <button type="button" onClick={() => setStep(1)} className="rounded-lg border border-slate-300 px-4 py-2 text-sm">
+      </div>
+    );
+  }
+
+  /* ── STEP 4: Processing ── */
+  if (step === 4) {
+    return (
+      <div className="mx-auto max-w-xl">
+        <div className="rounded-3xl border border-green-100 bg-white p-12 text-center shadow-sm">
+          <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-green-100 flex items-center justify-center animate-spin">
+            <div className="w-6 h-6 rounded-full border-2 border-green-500 border-t-transparent" />
+          </div>
+          <p className="text-slate-600 font-medium">Personalising your dashboard…</p>
+        </div>
+      </div>
+    );
+  }
+
+  /* ── STEP 5: Done ── */
+  if (step === 5) {
+    return (
+      <div className="mx-auto max-w-xl">
+        <div className="rounded-3xl border border-green-100 bg-white p-12 text-center shadow-sm">
+          <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-green-500 to-teal-500 flex items-center justify-center shadow-lg">
+            <span className="text-2xl">✓</span>
+          </div>
+          <h2 className="text-xl font-black text-slate-900 mb-2">Your tools are ready</h2>
+          <p className="text-sm text-slate-500">Taking you to your dashboard…</p>
+        </div>
+      </div>
+    );
+  }
+
+  /* ── STEP 3: Questionnaire ── */
+  return (
+    <div className="mx-auto max-w-2xl">
+      <div className="rounded-3xl border border-green-100 bg-white p-8 shadow-sm">
+        <div className="mb-1 text-xs font-semibold text-green-600 uppercase tracking-wider">Step 2 of 2</div>
+        <h2 className="text-xl font-black text-slate-900 mb-1">Quick questionnaire</h2>
+        <p className="text-sm text-slate-500 mb-6">Your answers shape which tools we recommend — the more honest, the better the fit.</p>
+
+        <Questionnaire questions={questions} answers={answers} onAnswer={handleAnswer} />
+
+        {/* Live preview */}
+        {Object.keys(answers).length > 0 && (
+          <div className="mt-6 rounded-2xl border border-green-100 bg-gradient-to-br from-green-50 to-teal-50/30 p-4">
+            <p className="text-xs font-semibold text-green-700 mb-2">Recommended tools so far</p>
+            <div className="flex flex-wrap gap-2">
+              {recommendationPreview.slice(0, 8).map((m) => (
+                <span key={m.id} className="rounded-full border border-green-200 bg-white px-3 py-1 text-xs font-medium text-green-800 shadow-sm">
+                  {m.title}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <p className="mt-4 text-xs text-slate-400">
+          {unanswered === 0 ? "✓ All questions answered" : `${unanswered} question${unanswered > 1 ? "s" : ""} remaining`}
+        </p>
+
+        <div className="mt-5 flex gap-3">
+          <button type="button" onClick={() => setStep(2)} className="rounded-xl border border-slate-200 px-5 py-2.5 text-sm text-slate-600 hover:bg-slate-50 transition-colors">
             Back
           </button>
           <button
             type="button"
-            onClick={() => setStep(3)}
-            disabled={challengeList.length === 0}
-            className="rounded-lg bg-green-500 px-4 py-2 text-sm font-medium text-white hover:bg-green-600 disabled:cursor-not-allowed disabled:opacity-40"
+            onClick={handleFinish}
+            disabled={unanswered > 0 || isProcessing}
+            className="rounded-xl bg-gradient-to-r from-green-500 to-teal-500 px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:from-green-600 hover:to-teal-600 transition-all disabled:cursor-not-allowed disabled:opacity-40"
           >
-            Continue
+            Build My Dashboard →
           </button>
         </div>
-      </div>
-    );
-  }
-
-  if (step === 4) {
-    return (
-      <div className="mx-auto max-w-xl rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm">
-        <p className="text-sm text-slate-600">Personalizing your dashboard...</p>
-      </div>
-    );
-  }
-
-  if (step === 5) {
-    return (
-      <div className="mx-auto max-w-xl rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm">
-        <h2 className="text-xl font-semibold text-slate-900">Your personalized tools are ready</h2>
-        <p className="mt-2 text-sm text-slate-600">Redirecting to your home dashboard...</p>
-      </div>
-    );
-  }
-
-  return (
-    <div className="mx-auto max-w-3xl rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-      <h2 className="text-xl font-semibold text-slate-900">Quick Questionnaire</h2>
-      <p className="mt-1 text-sm text-slate-600">Answer briefly so we can recommend the best tools.</p>
-
-      <div className="mt-4">
-        <Questionnaire questions={questions} answers={answers} onAnswer={handleAnswer} />
-      </div>
-
-      <div className="mt-6 rounded-xl border border-green-200 bg-green-50 p-4">
-        <h3 className="text-sm font-semibold text-green-800">Recommended tools from your answers</h3>
-        <p className="mt-1 text-xs text-green-700">These tools update as you answer the questionnaire.</p>
-        <div className="mt-3 flex flex-wrap gap-2">
-          {recommendationPreview.slice(0, 8).map((module) => (
-            <span
-              key={module.id}
-              className="rounded-full border border-green-300 bg-white px-3 py-1 text-xs font-medium text-green-800"
-            >
-              {module.title}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      <p className="mt-4 text-xs text-slate-500">
-        {unanswered === 0 ? "All questions answered" : `${unanswered} question${unanswered > 1 ? "s" : ""} remaining`}
-      </p>
-
-      <div className="mt-4 flex gap-2">
-        <button type="button" onClick={() => setStep(2)} className="rounded-lg border border-slate-300 px-4 py-2 text-sm">
-          Back
-        </button>
-        <button
-          type="button"
-          onClick={handleFinish}
-          disabled={unanswered > 0 || isProcessing}
-          className="rounded-lg bg-green-500 px-4 py-2 text-sm font-medium text-white hover:bg-green-600 disabled:cursor-not-allowed disabled:opacity-40"
-        >
-          Generate My Dashboard
-        </button>
       </div>
     </div>
   );
 }
+
