@@ -12,6 +12,14 @@ export const CHALLENGE_CATEGORIES = [
 ];
 
 export const MODULES_REGISTRY = {
+  [FEATURES.ADHD]: {
+    id: FEATURES.ADHD,
+    title: "ADHD Dashboard",
+    description: "Focus and time management tools: Visual Timeline and Focus Sessions.",
+    icon: "Zap",
+    launchRoute: "/adhd",
+    tags: ["focus", "time_blindness", "planning"],
+  },
   [FEATURES.ADHD_TIMELINE]: {
     id: FEATURES.ADHD_TIMELINE,
     title: "Visual Timeline",
@@ -91,14 +99,6 @@ export const MODULES_REGISTRY = {
     icon: "TrendingUp",
     launchRoute: "/ocd/progress",
     tags: ["progress", "exposure", "patterns"],
-  },
-  [FEATURES.DYSCALCULIA]: {
-    id: FEATURES.DYSCALCULIA,
-    title: "Number Confidence Builder",
-    description: "Use step-by-step numeric support for daily tasks.",
-    icon: "Activity",
-    launchRoute: "/dyscalculia",
-    tags: ["number_confusion", "step_support", "working_memory"],
   },
   [FEATURES.ASD_ROUTINE]: {
     id: FEATURES.ASD_ROUTINE,
@@ -189,55 +189,6 @@ export const MODULES_REGISTRY = {
     tags: ["working_memory", "number_confusion"],
   },
 
-  [FEATURES.DYSPRAXIA_DECOMPOSE]: {
-    id: FEATURES.DYSPRAXIA_DECOMPOSE,
-    title: "Task Decompose",
-    description: "Break overwhelming tasks into small, manageable steps with anxiety and fatigue support.",
-    icon: "Layers",
-    launchRoute: "/dyspraxia/task-decompose",
-    tags: ["step_support", "overwhelm", "planning"],
-  },
-  [FEATURES.DYSPRAXIA_MOTOR]: {
-    id: FEATURES.DYSPRAXIA_MOTOR,
-    title: "Motor Exercises",
-    description: "Gamified motor skill exercises designed to support coordination and movement.",
-    icon: "Activity",
-    launchRoute: "/dyspraxia/motor-exercises",
-    tags: ["motor", "routine", "stability"],
-  },
-  [FEATURES.DYSPRAXIA_BREAKDOWN]: {
-    id: FEATURES.DYSPRAXIA_BREAKDOWN,
-    title: "Task Breakdown",
-    description: "Guided step-by-step task planning to reduce cognitive load.",
-    icon: "ListChecks",
-    launchRoute: "/dyspraxia/task-breakdown",
-    tags: ["step_support", "planning", "overwhelm"],
-  },
-  [FEATURES.DYSPRAXIA_ROUTINE]: {
-    id: FEATURES.DYSPRAXIA_ROUTINE,
-    title: "Routine Scheduler",
-    description: "Build and track daily routines to create structure and predictability.",
-    icon: "Clock",
-    launchRoute: "/dyspraxia/routine-scheduler",
-    tags: ["routine", "stability", "planning"],
-  },
-  [FEATURES.DYSPRAXIA_SPATIAL]: {
-    id: FEATURES.DYSPRAXIA_SPATIAL,
-    title: "Spatial Trainer",
-    description: "Practice spatial awareness exercises to build confidence with navigation and positioning.",
-    icon: "Compass",
-    launchRoute: "/dyspraxia/spatial-trainer",
-    tags: ["motor", "step_support", "planning"],
-  },
-  [FEATURES.DYSPRAXIA_MOOD]: {
-    id: FEATURES.DYSPRAXIA_MOOD,
-    title: "Mood Tracker",
-    description: "Track frustration and mood patterns to spot triggers and celebrate progress.",
-    icon: "SmilePlus",
-    launchRoute: "/dyspraxia/mood-tracker",
-    tags: ["emotion_regulation", "stress", "overwhelm"],
-  },
-
   [FEATURES.DEPRESSION_MVH]: {
     id: FEATURES.DEPRESSION_MVH,
     title: "MVH Protocol",
@@ -309,7 +260,6 @@ export const CHALLENGE_MODULE_MAP = {
     FEATURES.ADHD_SOUNDS,
   ],
   dyscalculia: [
-    FEATURES.DYSCALCULIA,
     "dyscalculia.number-sense",
     "dyscalculia.step-practice",
     "dyscalculia.real-life-math",
@@ -318,22 +268,8 @@ export const CHALLENGE_MODULE_MAP = {
     FEATURES.ADHD_BREAKDOWN,
     FEATURES.ADHD_TIMELINE,
   ],
-  dyspraxia: [
-    FEATURES.DYSPRAXIA_DECOMPOSE,
-    FEATURES.DYSPRAXIA_MOTOR,
-    FEATURES.DYSPRAXIA_BREAKDOWN,
-    FEATURES.DYSPRAXIA_ROUTINE,
-    FEATURES.DYSPRAXIA_SPATIAL,
-    FEATURES.DYSPRAXIA_MOOD,
-  ],
-  adhd: [
-    FEATURES.ADHD_TIMELINE,
-    FEATURES.ADHD_BREAKDOWN,
-    FEATURES.ADHD_FOCUS,
-    FEATURES.ADHD_SOUNDS,
-    FEATURES.ADHD_EMOTION,
-    FEATURES.ADHD_DOUBLING,
-  ],
+  dyspraxia: [],
+  adhd: [FEATURES.ADHD],
   anxiety: [FEATURES.ADHD_EMOTION],
   depression: [
     FEATURES.DEPRESSION_MVH,

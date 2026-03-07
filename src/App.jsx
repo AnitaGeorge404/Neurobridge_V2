@@ -50,8 +50,8 @@ import RealLifeMathSimulator from "./pages/dyscalculia/RealLifeMathSimulator";
 import CalmMode from "./pages/dyscalculia/CalmMode";
 import PatternRecognitionTrainer from "./pages/dyscalculia/PatternRecognitionTrainer";
 
-import AnxietyPage from "./pages/AnxietyPage";
 import APDPage from "./pages/APDPage";
+import ADHDPage from "./pages/adhd/ADHDPage";
 
 import OCDPage from "./pages/ocd/OCDPage";
 import ERPExposureTracker from "./pages/ocd/ERPExposureTracker";
@@ -59,14 +59,6 @@ import ExposureHierarchyBuilder from "./pages/ocd/ExposureHierarchyBuilder";
 import SUDSMonitor from "./pages/ocd/SUDSMonitor";
 import ExposureSessionTimer from "./pages/ocd/ExposureSessionTimer";
 import ERPProgressTracker from "./pages/ocd/ERPProgressTracker";
-
-import DyspraxiaPage from "./pages/dyspraxia/DyspraxiaPage";
-import TaskDecomposePage from "./pages/dyspraxia/TaskDecomposePage";
-import MotorExercisesPage from "./pages/dyspraxia/MotorExercisesPage";
-import TaskBreakdownPage from "./pages/dyspraxia/TaskBreakdownPage";
-import RoutineSchedulerPage from "./pages/dyspraxia/RoutineSchedulerPage";
-import SpatialTrainerPage from "./pages/dyspraxia/SpatialTrainerPage";
-import MoodTrackerPage from "./pages/dyspraxia/MoodTrackerPage";
 
 // ── Depression ─────────────────────────────
 import DepressionDashboard from "./pages/depression/DepressionDashboard";
@@ -226,6 +218,14 @@ function ShellRoutes() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/adhd"
+          element={
+            <ProtectedRoute feature={FEATURES.ADHD}>
+              <ADHDPage />
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           path="/dyslexia"
@@ -374,63 +374,6 @@ function ShellRoutes() {
           }
         />
 
-        <Route
-          path="/dyspraxia"
-          element={
-            <ProtectedRoute feature={FEATURES.DYSPRAXIA}>
-              <DyspraxiaPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/dyspraxia/task-decompose"
-          element={
-            <ProtectedRoute feature={FEATURES.DYSPRAXIA_DECOMPOSE}>
-              <TaskDecomposePage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/dyspraxia/motor-exercises"
-          element={
-            <ProtectedRoute feature={FEATURES.DYSPRAXIA_MOTOR}>
-              <MotorExercisesPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/dyspraxia/task-breakdown"
-          element={
-            <ProtectedRoute feature={FEATURES.DYSPRAXIA_BREAKDOWN}>
-              <TaskBreakdownPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/dyspraxia/routine-scheduler"
-          element={
-            <ProtectedRoute feature={FEATURES.DYSPRAXIA_ROUTINE}>
-              <RoutineSchedulerPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/dyspraxia/spatial-trainer"
-          element={
-            <ProtectedRoute feature={FEATURES.DYSPRAXIA_SPATIAL}>
-              <SpatialTrainerPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/dyspraxia/mood-tracker"
-          element={
-            <ProtectedRoute feature={FEATURES.DYSPRAXIA_MOOD}>
-              <MoodTrackerPage />
-            </ProtectedRoute>
-          }
-        />
-
         {/* Depression */}
         <Route
           path="/depression/mvh"
@@ -481,14 +424,6 @@ function ShellRoutes() {
           }
         />
 
-        <Route
-          path="/anxiety"
-          element={
-            <ProtectedRoute feature={FEATURES.ANXIETY}>
-              <AnxietyPage />
-            </ProtectedRoute>
-          }
-        />
         <Route
           path="/apd"
           element={
