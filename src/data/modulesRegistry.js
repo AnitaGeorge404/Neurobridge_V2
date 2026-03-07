@@ -60,22 +60,6 @@ export const MODULES_REGISTRY = {
     launchRoute: "/adhd/doubling",
     tags: ["task_start", "focus", "planning"],
   },
-  [FEATURES.ANXIETY]: {
-    id: FEATURES.ANXIETY,
-    title: "Breathing Guide",
-    description: "Calm your body during stress moments.",
-    icon: "Leaf",
-    launchRoute: "/anxiety",
-    tags: ["panic", "stress", "physical_anxiety"],
-  },
-  [FEATURES.OCD_ERP_TRACKER]: {
-    id: FEATURES.OCD_ERP_TRACKER,
-    title: "ERP Exposure Tracker",
-    description: "Log every exposure you complete and track anxiety before and after.",
-    icon: "Shield",
-    launchRoute: "/ocd/exposure-tracker",
-    tags: ["exposure", "avoidance", "fear"],
-  },
   [FEATURES.OCD_HIERARCHY]: {
     id: FEATURES.OCD_HIERARCHY,
     title: "Exposure Hierarchy Builder",
@@ -107,14 +91,6 @@ export const MODULES_REGISTRY = {
     icon: "TrendingUp",
     launchRoute: "/ocd/progress",
     tags: ["progress", "exposure", "patterns"],
-  },
-  [FEATURES.DYSLEXIA]: {
-    id: FEATURES.DYSLEXIA,
-    title: "Sleep Wind-down Reader",
-    description: "Low-load reading to settle before sleep.",
-    icon: "Leaf",
-    launchRoute: "/dyslexia",
-    tags: ["sleep", "night_rumination"],
   },
   [FEATURES.DYSCALCULIA]: {
     id: FEATURES.DYSCALCULIA,
@@ -164,31 +140,6 @@ export const MODULES_REGISTRY = {
     launchRoute: "/asd/emotion",
     tags: ["emotion_regulation", "social_stress"],
   },
-  [FEATURES.DYSPRAXIA]: {
-    id: FEATURES.DYSPRAXIA,
-    title: "Dyspraxia Toolkit",
-    description: "Motor-friendly tools: task decomposition, routine scheduling, spatial training and more.",
-    icon: "Activity",
-    launchRoute: "/dyspraxia",
-    tags: ["routine", "motor", "step_support", "planning"],
-  },
-  [FEATURES.APD]: {
-    id: FEATURES.APD,
-    title: "Social Rehearsal",
-    description: "Practice communication and conversation cues.",
-    icon: "Activity",
-    launchRoute: "/apd",
-    tags: ["social_stress", "avoidance"],
-  },
-  [FEATURES.OCD]: {
-    id: FEATURES.OCD,
-    title: "ERP Exposure Toolkit",
-    description: "Evidence-based ERP tools for managing OCD through graded exposure practice.",
-    icon: "Shield",
-    launchRoute: "/ocd",
-    tags: ["exposure", "erp", "intrusive_thoughts"],
-  },
-
   "dyslexia.adaptive-reading": {
     id: "dyslexia.adaptive-reading",
     title: "Adaptive Reading",
@@ -339,7 +290,6 @@ export const MODULES_REGISTRY = {
 
 export const CHALLENGE_MODULE_MAP = {
   ocd: [
-    FEATURES.OCD,
     FEATURES.OCD_ERP_TRACKER,
     FEATURES.OCD_HIERARCHY,
     FEATURES.OCD_SUDS,
@@ -354,7 +304,6 @@ export const CHALLENGE_MODULE_MAP = {
     FEATURES.ASD_EMOTION,
   ],
   dyslexia: [
-    FEATURES.DYSLEXIA,
     "dyslexia.adaptive-reading",
     FEATURES.ADHD_FOCUS,
     FEATURES.ADHD_SOUNDS,
@@ -370,7 +319,6 @@ export const CHALLENGE_MODULE_MAP = {
     FEATURES.ADHD_TIMELINE,
   ],
   dyspraxia: [
-    FEATURES.DYSPRAXIA,
     FEATURES.DYSPRAXIA_DECOMPOSE,
     FEATURES.DYSPRAXIA_MOTOR,
     FEATURES.DYSPRAXIA_BREAKDOWN,
@@ -386,7 +334,7 @@ export const CHALLENGE_MODULE_MAP = {
     FEATURES.ADHD_EMOTION,
     FEATURES.ADHD_DOUBLING,
   ],
-  anxiety: [FEATURES.ANXIETY, FEATURES.ADHD_EMOTION],
+  anxiety: [FEATURES.ADHD_EMOTION],
   depression: [
     FEATURES.DEPRESSION_MVH,
     FEATURES.DEPRESSION_ANXIETY_DISSOLVER,
